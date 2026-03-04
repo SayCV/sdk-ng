@@ -24,7 +24,7 @@ on:
       zephyr-ref:
         description: 'Zephyr Ref (branch, tag, SHA, ...)'
         required: true
-        default: main
+        default: dev-0.17.4
       host:
         description: 'Host'
         type: choice
@@ -297,7 +297,7 @@ jobs:
         if [ "${build_host_windows_x86_64}" == "y" ]; then
           MATRIX_HOSTS+='{
               "name": "windows-x86_64",
-              "runner": "ubuntu-24.04",
+              "runner": "windows-latest",
               "container": "ghcr.io/zephyrproject-rtos/sdk-build:v1.3.9",
               "archive": "7z"
             },'
@@ -388,7 +388,7 @@ jobs:
         if [ "${build_host_windows_x86_64}" == "y" ]; then
           MATRIX_TESTENVS+='{
               "name": "windows-2022-x86_64",
-              "runner": "ubuntu-24.04",
+              "runner": "windows-latest",
               "container": "",
               "bundle-host": "windows-x86_64",
               "bundle-archive": "7z"
