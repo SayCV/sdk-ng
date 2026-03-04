@@ -84,6 +84,13 @@ on:
         - toolchain-pre
         - toolchain-post
         - hosttools
+      aws:
+        description: 'AWS'
+        type: choice
+        required: true
+        options:
+        - none
+        - aws
 
 concurrency:
   group: ${{ github.event_name == 'workflow_dispatch' && github.run_id || github.head_ref || github.ref }}
@@ -105,6 +112,7 @@ jobs:
       targets: ${{ steps.generate-matrix.outputs.targets }}
       testenvs: ${{ steps.generate-matrix.outputs.testenvs }}
       debug: ${{ steps.generate-matrix.outputs.debug }}
+      aws: ${{ steps.generate-matrix.outputs.asw }}
 
     steps:
     - name: Check out source code
@@ -152,6 +160,7 @@ jobs:
           ${{ contains(github.event.pull_request.labels.*.name, 'debug-toolchain-pre') }} && MATRIX_DEBUG="toolchain-pre"
           ${{ contains(github.event.pull_request.labels.*.name, 'debug-toolchain-post') }} && MATRIX_DEBUG="toolchain-post"
           ${{ contains(github.event.pull_request.labels.*.name, 'debug-hosttools') }} && MATRIX_DEBUG="hosttools"
+          MATRIX_AWS="none"
         elif [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
           # Set configurations based on the user selection
           case '${{ github.event.inputs.host }}' in
@@ -201,6 +210,7 @@ jobs:
           esac
 
           MATRIX_DEBUG="${{ github.event.inputs.debug }}"
+          MATRIX_AWS="${{ github.event.inputs.aws }}"
         else
           # Build all for pushes and releases
           build_host_all="y"
@@ -418,6 +428,7 @@ jobs:
         echo "targets=${MATRIX_TARGETS}" >> $GITHUB_OUTPUT
         echo "testenvs=${MATRIX_TESTENVS}" >> $GITHUB_OUTPUT
         echo "debug=${MATRIX_DEBUG}" >> $GITHUB_OUTPUT
+        echo "aws=${MATRIX_AWS}" >> $GITHUB_OUTPUT
 
         # Prepare configuration report
         CONFIG_REPORT=${RUNNER_TEMP}/config-report.txt
@@ -648,6 +659,7 @@ jobs:
         path: ${{ runner.temp }}
 
     - name: Configure AWS Credentials
+      if: always() && needs.setup.outputs.aws == 'aws'
       uses: aws-actions/configure-aws-credentials@v4
       with:
         aws-access-key-id: ${{ secrets.AWS_CACHE_SDK_ACCESS_KEY_ID }}
@@ -655,6 +667,7 @@ jobs:
         aws-region: us-east-1
 
     - name: Download cached source files
+      if: always() && needs.setup.outputs.aws == 'aws'
       continue-on-error: true
       run: |
         SRC_CACHE_BASE="s3://cache-sdk/crosstool-ng-sources"
@@ -824,6 +837,7 @@ jobs:
         limit-access-to-actor: true
 
     - name: Sync downloaded source files to cache
+      if: always() && needs.setup.outputs.aws == 'aws'
       continue-on-error: true
       run: |
         pushd ${WORKSPACE}/sources
@@ -917,6 +931,7 @@ jobs:
         persist-credentials: false
 
     - name: Configure AWS Credentials
+      if: always() && needs.setup.outputs.aws == 'aws'
       uses: aws-actions/configure-aws-credentials@v4
       with:
         aws-access-key-id: ${{ secrets.AWS_CACHE_SDK_ACCESS_KEY_ID }}
@@ -924,7 +939,7 @@ jobs:
         aws-region: us-east-1
 
     - name: Download cached source files (Linux)
-      if: startsWith(matrix.host.name, 'linux-')
+      if: startsWith(matrix.host.name, 'linux-') && needs.setup.outputs.aws == 'aws'
       continue-on-error: true
       run: |
         SRC_CACHE_BASE="s3://cache-sdk/poky-sources"
@@ -982,7 +997,7 @@ jobs:
         limit-access-to-actor: true
 
     - name: Sync downloaded source files to cache (Linux)
-      if: startsWith(matrix.host.name, 'linux-')
+      if: startsWith(matrix.host.name, 'linux-') && needs.setup.outputs.aws == 'aws'
       continue-on-error: true
       run: |
         pushd ${POKY_DOWNLOADS}
@@ -1290,8 +1305,7 @@ jobs:
   test-dist-bundle:
     name: Test (${{ matrix.testenv.name }}) Subset ${{ matrix.subset }}
     needs: [ setup, build-dist-bundle ]
-    runs-on:
-      group: ${{ matrix.testenv.runner }}
+    runs-on: ${{ matrix.testenv.runner }}
     container: ${{ matrix.testenv.container }}
 
     defaults:
