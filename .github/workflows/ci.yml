@@ -297,7 +297,7 @@ jobs:
         if [ "${build_host_windows_x86_64}" == "y" ]; then
           MATRIX_HOSTS+='{
               "name": "windows-x86_64",
-              "runner": "",
+              "runner": "ubuntu-24.04",
               "container": "ghcr.io/zephyrproject-rtos/sdk-build:v1.3.9",
               "archive": "7z"
             },'
@@ -388,7 +388,7 @@ jobs:
         if [ "${build_host_windows_x86_64}" == "y" ]; then
           MATRIX_TESTENVS+='{
               "name": "windows-2022-x86_64",
-              "runner": "",
+              "runner": "ubuntu-24.04",
               "container": "",
               "bundle-host": "windows-x86_64",
               "bundle-archive": "7z"
