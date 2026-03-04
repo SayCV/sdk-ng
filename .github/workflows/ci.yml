@@ -443,8 +443,7 @@ jobs:
   build-toolchain:
     name: Toolchain ${{ matrix.target }} (${{ matrix.host.name }})
     needs: setup
-    runs-on:
-      group: ${{ matrix.host.runner }}
+    runs-on: ${{ matrix.host.runner }}
     container: ${{ matrix.host.container }}
     timeout-minutes: 720
 
@@ -857,8 +856,7 @@ jobs:
   build-hosttools:
     name: Host Tools (${{ matrix.host.name }})
     needs: setup
-    runs-on:
-      group: ${{ matrix.host.runner }}
+    runs-on: ${{ matrix.host.runner }}
     container: ${{ matrix.host.container }}
 
     env:
@@ -1010,8 +1008,7 @@ jobs:
   build-cmake-pkg:
     name: CMake Package (${{ matrix.host.name }})
     needs: setup
-    runs-on:
-      group: ${{ matrix.host.runner }}
+    runs-on: ${{ matrix.host.runner }}
     container: ${{ matrix.host.container }}
 
     defaults:
@@ -1100,8 +1097,7 @@ jobs:
   build-dist-bundle:
     name: Distribution Bundle (${{ matrix.host.name }})
     needs: [ setup, build-toolchain, build-hosttools, build-cmake-pkg ]
-    runs-on:
-      group: ${{ matrix.host.runner }}
+    runs-on: ${{ matrix.host.runner }}
     container: ${{ matrix.host.container }}
 
     defaults:
