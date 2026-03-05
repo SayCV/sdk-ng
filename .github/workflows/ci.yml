@@ -91,6 +91,13 @@ on:
         options:
         - none
         - aws
+      test:
+        description: 'TEST'
+        type: choice
+        required: true
+        options:
+        - none
+        - enable
 
 concurrency:
   group: ${{ github.event_name == 'workflow_dispatch' && github.run_id || github.head_ref || github.ref }}
@@ -113,6 +120,7 @@ jobs:
       testenvs: ${{ steps.generate-matrix.outputs.testenvs }}
       debug: ${{ steps.generate-matrix.outputs.debug }}
       aws: ${{ steps.generate-matrix.outputs.asw }}
+      test: ${{ steps.generate-matrix.outputs.test }}
 
     steps:
     - name: Check out source code
@@ -161,6 +169,7 @@ jobs:
           ${{ contains(github.event.pull_request.labels.*.name, 'debug-toolchain-post') }} && MATRIX_DEBUG="toolchain-post"
           ${{ contains(github.event.pull_request.labels.*.name, 'debug-hosttools') }} && MATRIX_DEBUG="hosttools"
           MATRIX_AWS="none"
+          MATRIX_TEST="no"
         elif [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
           # Set configurations based on the user selection
           case '${{ github.event.inputs.host }}' in
@@ -211,6 +220,7 @@ jobs:
 
           MATRIX_DEBUG="${{ github.event.inputs.debug }}"
           MATRIX_AWS="${{ github.event.inputs.aws }}"
+          MATRIX_TEST="${{ github.event.inputs.test }}"
         else
           # Build all for pushes and releases
           build_host_all="y"
@@ -429,6 +439,7 @@ jobs:
         echo "testenvs=${MATRIX_TESTENVS}" >> $GITHUB_OUTPUT
         echo "debug=${MATRIX_DEBUG}" >> $GITHUB_OUTPUT
         echo "aws=${MATRIX_AWS}" >> $GITHUB_OUTPUT
+        echo "test=${MATRIX_TEST}" >> $GITHUB_OUTPUT
 
         # Prepare configuration report
         CONFIG_REPORT=${RUNNER_TEMP}/config-report.txt
@@ -781,7 +792,17 @@ jobs:
         ${CT_NG} defconfig DEFCONFIG=build.config
 
         # Build toolchain
-        ${CT_NG} build
+        ${CT_NG} build STOP=cc_for_host
+
+        # Clean up gcc build directory to reduce disk usage
+        pushd ${OUTPUT_BASE}/${OUTPUT_DIR}/${{ matrix.target }}
+        du -sh */ || true
+        tree -L 2 || true
+        rm -rf linux || true
+        rm -rf gcc || true
+        popd
+
+        ${CT_NG} build RESTART=libc_post_cc
         popd
 
         # Resolve output directory path
@@ -1303,6 +1324,7 @@ jobs:
 
   # Test distribution bundle
   test-dist-bundle:
+    if: always() && needs.setup.outputs.test == 'enable'
     name: Test (${{ matrix.testenv.name }}) Subset ${{ matrix.subset }}
     needs: [ setup, build-dist-bundle ]
     runs-on: ${{ matrix.testenv.runner }}
