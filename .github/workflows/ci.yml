@@ -796,7 +796,7 @@ jobs:
 
         # Clean up gcc build directory to reduce disk usage
         pushd ${OUTPUT_BASE}/${OUTPUT_DIR}/${{ matrix.target }}
-        du -sh */ || true
+        # du -sh */ || true
         tree -L 2 || true
         rm -rf linux || true
         rm -rf gcc || true
