@@ -795,12 +795,12 @@ jobs:
         ${CT_NG} build STOP=cc_for_host
 
         # Clean up gcc build directory to reduce disk usage
-        pushd ${OUTPUT_BASE}/${OUTPUT_DIR}/${{ matrix.target }}
         # du -sh */ || true
         tree -L 2 || true
-        rm -rf linux || true
-        rm -rf gcc || true
-        popd
+        rm -rf src/linux-* || true
+        rm -rf src/gcc-* || true
+        rm -rf ${{ matrix.target }}/build/build-kernel-headers || true
+        rm -rf ${{ matrix.target }}/build/build-cc-* || true
 
         ${CT_NG} build RESTART=libc_post_cc
         popd
