@@ -169,7 +169,7 @@ jobs:
           ${{ contains(github.event.pull_request.labels.*.name, 'debug-toolchain-post') }} && MATRIX_DEBUG="toolchain-post"
           ${{ contains(github.event.pull_request.labels.*.name, 'debug-hosttools') }} && MATRIX_DEBUG="hosttools"
           MATRIX_AWS="none"
-          MATRIX_TEST="no"
+          MATRIX_TEST="none"
         elif [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
           # Set configurations based on the user selection
           case '${{ github.event.inputs.host }}' in
