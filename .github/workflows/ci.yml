@@ -786,6 +786,11 @@ jobs:
         EOF
         fi
 
+        # Configure restartable build for the previous build
+        cat <<EOF >> .config
+        CT_DEBUG_CT_SAVE_STEPS=y
+        EOF
+
         # Merge configurations
         ${CT_NG} savedefconfig DEFCONFIG=build.config
         ${CT_NG} distclean
