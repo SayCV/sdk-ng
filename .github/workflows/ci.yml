@@ -23,32 +23,32 @@ on:
       zephyr-ref:
         description: 'Zephyr Ref (branch, tag, SHA, ...)'
         type: string
-        required: true
+        required: false
         default: dev-0.17.4
       host:
         description: 'Host'
         type: string
-        required: true
+        required: false
         default: 'windows-x86_64'
       target:
         description: 'Target'
         type: string
-        required: true
+        required: false
         default: 'armeb-zephyr-eabi'
       debug:
         description: 'Debug'
         type: string
-        required: true
+        required: false
         default: 'none'
       aws:
         description: 'AWS'
         type: string
-        required: true
+        required: false
         default: 'none'
       test:
         description: 'TEST'
         type: string
-        required: true
+        required: false
         default: 'none'
 
   workflow_dispatch:
