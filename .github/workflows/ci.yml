@@ -256,8 +256,13 @@ jobs:
             MATRIX_TEST="${{ github.event.inputs.test }}"
           else
             # Build all for pushes and releases
-            build_host_all="y"
-            build_target_all="y"
+            # build_host_all="y"
+            # build_target_all="y"
+            build_host_windows_x86_64="y"
+            build_target_armeb_zephyr_eabi="y"
+            MATRIX_DEBUG="${{ github.event.inputs.debug }}"
+            MATRIX_AWS="${{ github.event.inputs.aws }}"
+            MATRIX_TEST="${{ github.event.inputs.test }}"
           fi
 
           if [ "${build_host_all}" == "y" ]; then
