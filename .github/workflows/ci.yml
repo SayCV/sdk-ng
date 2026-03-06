@@ -202,7 +202,7 @@ jobs:
             ${{ contains(github.event.pull_request.labels.*.name, 'debug-hosttools') }} && MATRIX_DEBUG="hosttools"
             MATRIX_AWS="none"
             MATRIX_TEST="none"
-          elif [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "${{ github.event_name }}" = "workflow_call" ]; then
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "${{ github.event_name }}" = "release" ]; then
             # Set configurations based on the user selection
             case '${{ github.event.inputs.host }}' in
               all)            build_host_all="y";;
