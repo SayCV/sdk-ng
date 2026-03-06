@@ -811,13 +811,10 @@ jobs:
         rm -rf ${WORKSPACE}/build/.build/HOST-${CT_HOST}/${{ matrix.target }}/src/gcc || true
         rm -rf ${WORKSPACE}/build/.build/HOST-${CT_HOST}/${{ matrix.target }}/build/build-cc-gcc-core || true
         rm -rf ${WORKSPACE}/build/.build/HOST-${CT_HOST}/${{ matrix.target }}/build/build-cc-gcc-final || true
+        df -h || true
 
         mv ${WORKSPACE}/build/build.log ${WORKSPACE}/build/build.log.1 || true
         ${CT_NG} build RESTART=libc_post_cc
-        mv ${WORKSPACE}/build/build.log ${WORKSPACE}/build/build.log.2 || true
-        mv ${WORKSPACE}/build/build.log.1 ${WORKSPACE}/build/build.log || true
-        cat ${WORKSPACE}/build/build.log.2 >> ${WORKSPACE}/build/build.log || true
-        cat ${WORKSPACE}/build/build.config >> ${WORKSPACE}/build/build.log || true
         popd
 
         # Resolve output directory path
@@ -891,7 +888,11 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: log_${{ matrix.host.name }}_${{ matrix.target }}
-        path: ${{ matrix.target }}.log
+        path:  |
+          ${{ matrix.target }}.log
+          ${WORKSPACE}/build/build.log.1
+          ${WORKSPACE}/build/build.config
+          ${WORKSPACE}/build/.config
 
     - name: Upload toolchain build artifact
       uses: actions/upload-artifact@v4
