@@ -2,118 +2,146 @@
 
 name: CI
 
-.workflow_inputs: &workflow_inputs
-  inputs:
-    zephyr-ref:
-      description: 'Zephyr Ref (branch, tag, SHA, ...)'
-      required: true
-      default: dev-0.17.4
-    host:
-      description: 'Host'
-      type: choice
-      required: true
-      default: 'windows-x86_64'
-      options:
-      - windows-x86_64
-      - all
-      - linux-x86_64
-      - linux-aarch64
-      - macos-x86_64
-      - macos-aarch64
-    target:
-      description: 'Target'
-      type: choice
-      required: true
-      default: 'armeb-zephyr-eabi'
-      options:
-      - all
-      - aarch64-zephyr-elf
-      - arc64-zephyr-elf
-      - arc-zephyr-elf
-      - arm-zephyr-eabi
-      - armeb-zephyr-eabi
-      - microblazeel-zephyr-elf
-      - mips-zephyr-elf
-      - nios2-zephyr-elf
-      - riscv64-zephyr-elf
-      - rx-zephyr-elf
-      - sparc-zephyr-elf
-      - x86_64-zephyr-elf
-      - xtensa-amd_acp_6_0_adsp_zephyr-elf
-      - xtensa-dc233c_zephyr-elf
-      - xtensa-espressif_esp32_zephyr-elf
-      - xtensa-espressif_esp32s2_zephyr-elf
-      - xtensa-espressif_esp32s3_zephyr-elf
-      - xtensa-intel_ace15_mtpm_zephyr-elf
-      - xtensa-intel_ace30_ptl_zephyr-elf
-      - xtensa-intel_tgl_adsp_zephyr-elf
-      - xtensa-mtk_mt8195_adsp_zephyr-elf
-      - xtensa-mtk_mt818x_adsp_zephyr-elf
-      - xtensa-mtk_mt8196_adsp_zephyr-elf
-      - xtensa-mtk_mt8365_adsp_zephyr-elf
-      - xtensa-nxp_imx_adsp_zephyr-elf
-      - xtensa-nxp_imx8m_adsp_zephyr-elf
-      - xtensa-nxp_imx8ulp_adsp_zephyr-elf
-      - xtensa-nxp_rt500_adsp_zephyr-elf
-      - xtensa-nxp_rt600_adsp_zephyr-elf
-      - xtensa-nxp_rt700_hifi1_zephyr-elf
-      - xtensa-nxp_rt700_hifi4_zephyr-elf
-      - xtensa-sample_controller_zephyr-elf
-      - xtensa-sample_controller32_zephyr-elf
-    debug:
-      description: 'Debug'
-      type: choice
-      required: true
-      default: 'none'
-      options:
-      - none
-      - toolchain-pre
-      - toolchain-post
-      - hosttools
-    aws:
-      description: 'AWS'
-      type: choice
-      required: true
-      default: 'none'
-      options:
-      - none
-      - aws
-    test:
-      description: 'TEST'
-      type: choice
-      required: true
-      default: 'none'
-      options:
-      - none
-      - enable
-
 on:
   push:
     branches:
-    - main
-    - topic-*
-    - v*-branch
+      - main
+      - topic-*
+      - v*-branch
   pull_request_target:
     branches:
-    - main
-    - topic-*
-    - v*-branch
+      - main
+      - topic-*
+      - v*-branch
   workflow_call:
-    <<: *workflow_inputs
     secrets:
       AWS_CACHE_SDK_ACCESS_KEY_ID:
         required: true
       AWS_CACHE_SDK_SECRET_ACCESS_KEY:
         required: true
+    inputs:
+      zephyr-ref:
+        description: 'Zephyr Ref (branch, tag, SHA, ...)'
+        type: string
+        required: true
+        default: dev-0.17.4
+      host:
+        description: 'Host'
+        type: string
+        required: true
+        default: 'windows-x86_64'
+      target:
+        description: 'Target'
+        type: string
+        required: true
+        default: 'armeb-zephyr-eabi'
+      debug:
+        description: 'Debug'
+        type: string
+        required: true
+        default: 'none'
+      aws:
+        description: 'AWS'
+        type: string
+        required: true
+        default: 'none'
+      test:
+        description: 'TEST'
+        type: string
+        required: true
+        default: 'none'
+
   workflow_dispatch:
-    <<: *workflow_inputs
+    inputs:
+      zephyr-ref:
+        description: 'Zephyr Ref (branch, tag, SHA, ...)'
+        required: true
+        default: dev-0.17.4
+      host:
+        description: 'Host'
+        type: choice
+        required: true
+        default: 'windows-x86_64'
+        options:
+        - windows-x86_64
+        - all
+        - linux-x86_64
+        - linux-aarch64
+        - macos-x86_64
+        - macos-aarch64
+      target:
+        description: 'Target'
+        type: choice
+        required: true
+        default: 'armeb-zephyr-eabi'
+        options:
+        - all
+        - aarch64-zephyr-elf
+        - arc64-zephyr-elf
+        - arc-zephyr-elf
+        - arm-zephyr-eabi
+        - armeb-zephyr-eabi
+        - microblazeel-zephyr-elf
+        - mips-zephyr-elf
+        - nios2-zephyr-elf
+        - riscv64-zephyr-elf
+        - rx-zephyr-elf
+        - sparc-zephyr-elf
+        - x86_64-zephyr-elf
+        - xtensa-amd_acp_6_0_adsp_zephyr-elf
+        - xtensa-dc233c_zephyr-elf
+        - xtensa-espressif_esp32_zephyr-elf
+        - xtensa-espressif_esp32s2_zephyr-elf
+        - xtensa-espressif_esp32s3_zephyr-elf
+        - xtensa-intel_ace15_mtpm_zephyr-elf
+        - xtensa-intel_ace30_ptl_zephyr-elf
+        - xtensa-intel_tgl_adsp_zephyr-elf
+        - xtensa-mtk_mt8195_adsp_zephyr-elf
+        - xtensa-mtk_mt818x_adsp_zephyr-elf
+        - xtensa-mtk_mt8196_adsp_zephyr-elf
+        - xtensa-mtk_mt8365_adsp_zephyr-elf
+        - xtensa-nxp_imx_adsp_zephyr-elf
+        - xtensa-nxp_imx8m_adsp_zephyr-elf
+        - xtensa-nxp_imx8ulp_adsp_zephyr-elf
+        - xtensa-nxp_rt500_adsp_zephyr-elf
+        - xtensa-nxp_rt600_adsp_zephyr-elf
+        - xtensa-nxp_rt700_hifi1_zephyr-elf
+        - xtensa-nxp_rt700_hifi4_zephyr-elf
+        - xtensa-sample_controller_zephyr-elf
+        - xtensa-sample_controller32_zephyr-elf
+      debug:
+        description: 'Debug'
+        type: choice
+        required: true
+        default: 'none'
+        options:
+        - none
+        - toolchain-pre
+        - toolchain-post
+        - hosttools
+      aws:
+        description: 'AWS'
+        type: choice
+        required: true
+        default: 'none'
+        options:
+        - none
+        - aws
+      test:
+        description: 'TEST'
+        type: choice
+        required: true
+        default: 'none'
+        options:
+        - none
+        - enable
 
 concurrency:
   group: ${{ github.event_name == 'workflow_dispatch' && github.run_id || github.head_ref || github.ref }}
   cancel-in-progress: ${{ github.event_name != 'workflow_dispatch' }}
 
 env:
-  BUG_URL: 'https://github.com/zephyrproject-rtos/sdk-ng/issues'
+  BUG_URL: "https://github.com/zephyrproject-rtos/sdk-ng/issues"
   BUNDLE_NAME: Zephyr SDK
   BUNDLE_PREFIX: zephyr-sdk
   ZEPHYR_REF: v4.2-branch
@@ -132,343 +160,343 @@ jobs:
       test: ${{ steps.generate-matrix.outputs.test }}
 
     steps:
-    - name: Check out source code
-      if: ${{ github.event_name != 'pull_request_target' }}
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        persist-credentials: false
+      - name: Check out source code
+        if: ${{ github.event_name != 'pull_request_target' }}
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
-    - name: Check out source code (pull request)
-      if: ${{ github.event_name == 'pull_request_target' }}
-      uses: actions/checkout@v4
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
-        fetch-depth: 0
-        persist-credentials: false
+      - name: Check out source code (pull request)
+        if: ${{ github.event_name == 'pull_request_target' }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
 
-    - name: Generate version file
-      run: |
-        VERSION=$(git describe --tags --match 'v*')
-        echo "${VERSION:1}" > version
+      - name: Generate version file
+        run: |
+          VERSION=$(git describe --tags --match 'v*')
+          echo "${VERSION:1}" > version
 
-    - name: Upload version file
-      uses: actions/upload-artifact@v4
-      with:
-        name: version
-        path: version
+      - name: Upload version file
+        uses: actions/upload-artifact@v4
+        with:
+          name: version
+          path: version
 
-    - name: Generate matrix
-      id: generate-matrix
-      run: |
-        # Set build configurations
-        if [ "${{ github.event_name }}" == "pull_request_target" ]; then
-          # Set configurations based on the pull request labels
-          ${{ contains(github.event.pull_request.labels.*.name, 'ci-linux-x86_64') }}   && build_host_linux_x86_64="y"
-          ${{ contains(github.event.pull_request.labels.*.name, 'ci-linux-aarch64') }}  && build_host_linux_aarch64="y"
-          ${{ contains(github.event.pull_request.labels.*.name, 'ci-macos-x86_64') }}   && build_host_macos_x86_64="y"
-          ${{ contains(github.event.pull_request.labels.*.name, 'ci-macos-aarch64') }}  && build_host_macos_aarch64="y"
-          ${{ contains(github.event.pull_request.labels.*.name, 'ci-windows-x86_64') }} && build_host_windows_x86_64="y"
+      - name: Generate matrix
+        id: generate-matrix
+        run: |
+          # Set build configurations
+          if [ "${{ github.event_name }}" == "pull_request_target" ]; then
+            # Set configurations based on the pull request labels
+            ${{ contains(github.event.pull_request.labels.*.name, 'ci-linux-x86_64') }}   && build_host_linux_x86_64="y"
+            ${{ contains(github.event.pull_request.labels.*.name, 'ci-linux-aarch64') }}  && build_host_linux_aarch64="y"
+            ${{ contains(github.event.pull_request.labels.*.name, 'ci-macos-x86_64') }}   && build_host_macos_x86_64="y"
+            ${{ contains(github.event.pull_request.labels.*.name, 'ci-macos-aarch64') }}  && build_host_macos_aarch64="y"
+            ${{ contains(github.event.pull_request.labels.*.name, 'ci-windows-x86_64') }} && build_host_windows_x86_64="y"
 
-          # Build all targets for pull requests
-          build_target_all="y"
+            # Build all targets for pull requests
+            build_target_all="y"
 
-          # Set debug mode based on the pull request labels
-          ${{ contains(github.event.pull_request.labels.*.name, 'debug-toolchain-pre') }} && MATRIX_DEBUG="toolchain-pre"
-          ${{ contains(github.event.pull_request.labels.*.name, 'debug-toolchain-post') }} && MATRIX_DEBUG="toolchain-post"
-          ${{ contains(github.event.pull_request.labels.*.name, 'debug-hosttools') }} && MATRIX_DEBUG="hosttools"
-          MATRIX_AWS="none"
-          MATRIX_TEST="none"
-        elif [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-          # Set configurations based on the user selection
-          case '${{ github.event.inputs.host }}' in
-            all)            build_host_all="y";;
-            linux-x86_64)   build_host_linux_x86_64="y";;
-            linux-aarch64)  build_host_linux_aarch64="y";;
-            macos-x86_64)   build_host_macos_x86_64="y";;
-            macos-aarch64)  build_host_macos_aarch64="y";;
-            windows-x86_64) build_host_windows_x86_64="y";;
-          esac
+            # Set debug mode based on the pull request labels
+            ${{ contains(github.event.pull_request.labels.*.name, 'debug-toolchain-pre') }} && MATRIX_DEBUG="toolchain-pre"
+            ${{ contains(github.event.pull_request.labels.*.name, 'debug-toolchain-post') }} && MATRIX_DEBUG="toolchain-post"
+            ${{ contains(github.event.pull_request.labels.*.name, 'debug-hosttools') }} && MATRIX_DEBUG="hosttools"
+            MATRIX_AWS="none"
+            MATRIX_TEST="none"
+          elif [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            # Set configurations based on the user selection
+            case '${{ github.event.inputs.host }}' in
+              all)            build_host_all="y";;
+              linux-x86_64)   build_host_linux_x86_64="y";;
+              linux-aarch64)  build_host_linux_aarch64="y";;
+              macos-x86_64)   build_host_macos_x86_64="y";;
+              macos-aarch64)  build_host_macos_aarch64="y";;
+              windows-x86_64) build_host_windows_x86_64="y";;
+            esac
 
-          case '${{ github.event.inputs.target }}' in
-            all)                                  build_target_all="y";;
-            aarch64-zephyr-elf)                   build_target_aarch64_zephyr_elf="y";;
-            arc64-zephyr-elf)                     build_target_arc64_zephyr_elf="y";;
-            arc-zephyr-elf)                       build_target_arc_zephyr_elf="y";;
-            arm-zephyr-eabi)                      build_target_arm_zephyr_eabi="y";;
-            armeb-zephyr-eabi)                    build_target_armeb_zephyr_eabi="y";;
-            microblazeel-zephyr-elf)              build_target_microblazeel_zephyr_elf="y";;
-            mips-zephyr-elf)                      build_target_mips_zephyr_elf="y";;
-            nios2-zephyr-elf)                     build_target_nios2_zephyr_elf="y";;
-            riscv64-zephyr-elf)                   build_target_riscv64_zephyr_elf="y";;
-            rx-zephyr-elf)                        build_target_rx_zephyr_elf="y";;
-            sparc-zephyr-elf)                     build_target_sparc_zephyr_elf="y";;
-            x86_64-zephyr-elf)                    build_target_x86_64_zephyr_elf="y";;
-            xtensa-amd_acp_6_0_adsp_zephyr-elf)   build_target_xtensa_amd_acp_6_0_adsp_zephyr_elf="y";;
-            xtensa-dc233c_zephyr-elf)             build_target_xtensa_dc233c_zephyr_elf="y";;
-            xtensa-espressif_esp32_zephyr-elf)    build_target_xtensa_espressif_esp32_zephyr_elf="y";;
-            xtensa-espressif_esp32s2_zephyr-elf)  build_target_xtensa_espressif_esp32s2_zephyr_elf="y";;
-            xtensa-espressif_esp32s3_zephyr-elf)  build_target_xtensa_espressif_esp32s3_zephyr_elf="y";;
-            xtensa-intel_ace15_mtpm_zephyr-elf)   build_target_xtensa_intel_ace15_mtpm_zephyr_elf="y";;
-            xtensa-intel_ace30_ptl_zephyr-elf)   build_target_xtensa_intel_ace30_ptl_zephyr_elf="y";;
-            xtensa-intel_tgl_adsp_zephyr-elf)     build_target_xtensa_intel_tgl_adsp_zephyr_elf="y";;
-            xtensa-mtk_mt8195_adsp_zephyr-elf)    build_target_xtensa_mtk_mt8195_adsp_zephyr_elf="y";;
-            xtensa-mtk_mt818x_adsp_zephyr-elf)    build_target_xtensa_mtk_mt818x_adsp_zephyr_elf="y";;
-            xtensa-mtk_mt8196_adsp_zephyr-elf)    build_target_xtensa_mtk_mt8196_adsp_zephyr_elf="y";;
-            xtensa-mtk_mt8365_adsp_zephyr-elf)    build_target_xtensa_mtk_mt8365_adsp_zephyr_elf="y";;
-            xtensa-nxp_imx_adsp_zephyr-elf)       build_target_xtensa_nxp_imx_adsp_zephyr_elf="y";;
-            xtensa-nxp_imx8m_adsp_zephyr-elf)     build_target_xtensa_nxp_imx8m_adsp_zephyr_elf="y";;
-            xtensa-nxp_imx8ulp_adsp_zephyr-elf)   build_target_xtensa_nxp_imx8ulp_adsp_zephyr_elf="y";;
-            xtensa-nxp_rt500_adsp_zephyr-elf)     build_target_xtensa_nxp_rt500_adsp_zephyr_elf="y";;
-            xtensa-nxp_rt600_adsp_zephyr-elf)     build_target_xtensa_nxp_rt600_adsp_zephyr_elf="y";;
-            xtensa-nxp_rt700_hifi1_zephyr-elf)    build_target_xtensa_nxp_rt700_hifi1_zephyr_elf="y";;
-            xtensa-nxp_rt700_hifi4_zephyr-elf)    build_target_xtensa_nxp_rt700_hifi4_zephyr_elf="y";;
-            xtensa-sample_controller_zephyr-elf)  build_target_xtensa_sample_controller_zephyr_elf="y";;
-            xtensa-sample_controller32_zephyr-elf) build_target_xtensa_sample_controller32_zephyr_elf="y";;
-          esac
+            case '${{ github.event.inputs.target }}' in
+              all)                                  build_target_all="y";;
+              aarch64-zephyr-elf)                   build_target_aarch64_zephyr_elf="y";;
+              arc64-zephyr-elf)                     build_target_arc64_zephyr_elf="y";;
+              arc-zephyr-elf)                       build_target_arc_zephyr_elf="y";;
+              arm-zephyr-eabi)                      build_target_arm_zephyr_eabi="y";;
+              armeb-zephyr-eabi)                    build_target_armeb_zephyr_eabi="y";;
+              microblazeel-zephyr-elf)              build_target_microblazeel_zephyr_elf="y";;
+              mips-zephyr-elf)                      build_target_mips_zephyr_elf="y";;
+              nios2-zephyr-elf)                     build_target_nios2_zephyr_elf="y";;
+              riscv64-zephyr-elf)                   build_target_riscv64_zephyr_elf="y";;
+              rx-zephyr-elf)                        build_target_rx_zephyr_elf="y";;
+              sparc-zephyr-elf)                     build_target_sparc_zephyr_elf="y";;
+              x86_64-zephyr-elf)                    build_target_x86_64_zephyr_elf="y";;
+              xtensa-amd_acp_6_0_adsp_zephyr-elf)   build_target_xtensa_amd_acp_6_0_adsp_zephyr_elf="y";;
+              xtensa-dc233c_zephyr-elf)             build_target_xtensa_dc233c_zephyr_elf="y";;
+              xtensa-espressif_esp32_zephyr-elf)    build_target_xtensa_espressif_esp32_zephyr_elf="y";;
+              xtensa-espressif_esp32s2_zephyr-elf)  build_target_xtensa_espressif_esp32s2_zephyr_elf="y";;
+              xtensa-espressif_esp32s3_zephyr-elf)  build_target_xtensa_espressif_esp32s3_zephyr_elf="y";;
+              xtensa-intel_ace15_mtpm_zephyr-elf)   build_target_xtensa_intel_ace15_mtpm_zephyr_elf="y";;
+              xtensa-intel_ace30_ptl_zephyr-elf)   build_target_xtensa_intel_ace30_ptl_zephyr_elf="y";;
+              xtensa-intel_tgl_adsp_zephyr-elf)     build_target_xtensa_intel_tgl_adsp_zephyr_elf="y";;
+              xtensa-mtk_mt8195_adsp_zephyr-elf)    build_target_xtensa_mtk_mt8195_adsp_zephyr_elf="y";;
+              xtensa-mtk_mt818x_adsp_zephyr-elf)    build_target_xtensa_mtk_mt818x_adsp_zephyr_elf="y";;
+              xtensa-mtk_mt8196_adsp_zephyr-elf)    build_target_xtensa_mtk_mt8196_adsp_zephyr_elf="y";;
+              xtensa-mtk_mt8365_adsp_zephyr-elf)    build_target_xtensa_mtk_mt8365_adsp_zephyr_elf="y";;
+              xtensa-nxp_imx_adsp_zephyr-elf)       build_target_xtensa_nxp_imx_adsp_zephyr_elf="y";;
+              xtensa-nxp_imx8m_adsp_zephyr-elf)     build_target_xtensa_nxp_imx8m_adsp_zephyr_elf="y";;
+              xtensa-nxp_imx8ulp_adsp_zephyr-elf)   build_target_xtensa_nxp_imx8ulp_adsp_zephyr_elf="y";;
+              xtensa-nxp_rt500_adsp_zephyr-elf)     build_target_xtensa_nxp_rt500_adsp_zephyr_elf="y";;
+              xtensa-nxp_rt600_adsp_zephyr-elf)     build_target_xtensa_nxp_rt600_adsp_zephyr_elf="y";;
+              xtensa-nxp_rt700_hifi1_zephyr-elf)    build_target_xtensa_nxp_rt700_hifi1_zephyr_elf="y";;
+              xtensa-nxp_rt700_hifi4_zephyr-elf)    build_target_xtensa_nxp_rt700_hifi4_zephyr_elf="y";;
+              xtensa-sample_controller_zephyr-elf)  build_target_xtensa_sample_controller_zephyr_elf="y";;
+              xtensa-sample_controller32_zephyr-elf) build_target_xtensa_sample_controller32_zephyr_elf="y";;
+            esac
 
-          MATRIX_DEBUG="${{ github.event.inputs.debug }}"
-          MATRIX_AWS="${{ github.event.inputs.aws }}"
-          MATRIX_TEST="${{ github.event.inputs.test }}"
-        else
-          # Build all for pushes and releases
-          build_host_all="y"
-          build_target_all="y"
-        fi
+            MATRIX_DEBUG="${{ github.event.inputs.debug }}"
+            MATRIX_AWS="${{ github.event.inputs.aws }}"
+            MATRIX_TEST="${{ github.event.inputs.test }}"
+          else
+            # Build all for pushes and releases
+            build_host_all="y"
+            build_target_all="y"
+          fi
 
-        if [ "${build_host_all}" == "y" ]; then
-          build_host_linux_x86_64="y"
-          build_host_linux_aarch64="y"
-          build_host_macos_x86_64="y"
-          build_host_macos_aarch64="y"
-          build_host_windows_x86_64="y"
-        fi
+          if [ "${build_host_all}" == "y" ]; then
+            build_host_linux_x86_64="y"
+            build_host_linux_aarch64="y"
+            build_host_macos_x86_64="y"
+            build_host_macos_aarch64="y"
+            build_host_windows_x86_64="y"
+          fi
 
-        if [ "${build_target_all}" == "y" ]; then
-          build_target_aarch64_zephyr_elf="y"
-          build_target_arc64_zephyr_elf="y"
-          build_target_arc_zephyr_elf="y"
-          build_target_arm_zephyr_eabi="y"
-          build_target_armeb_zephyr_eabi="y"
-          build_target_microblazeel_zephyr_elf="y"
-          build_target_mips_zephyr_elf="y"
-          build_target_nios2_zephyr_elf="y"
-          build_target_riscv64_zephyr_elf="y"
-          build_target_rx_zephyr_elf="y"
-          build_target_sparc_zephyr_elf="y"
-          build_target_x86_64_zephyr_elf="y"
-          build_target_xtensa_amd_acp_6_0_adsp_zephyr_elf="y"
-          build_target_xtensa_dc233c_zephyr_elf="y"
-          build_target_xtensa_espressif_esp32_zephyr_elf="y"
-          build_target_xtensa_espressif_esp32s2_zephyr_elf="y"
-          build_target_xtensa_espressif_esp32s3_zephyr_elf="y"
-          build_target_xtensa_intel_ace15_mtpm_zephyr_elf="y"
-          build_target_xtensa_intel_ace30_ptl_zephyr_elf="y"
-          build_target_xtensa_intel_tgl_adsp_zephyr_elf="y"
-          build_target_xtensa_mtk_mt8195_adsp_zephyr_elf="y"
-          build_target_xtensa_mtk_mt818x_adsp_zephyr_elf="y"
-          build_target_xtensa_mtk_mt8196_adsp_zephyr_elf="y"
-          build_target_xtensa_mtk_mt8365_adsp_zephyr_elf="y"
-          build_target_xtensa_nxp_imx_adsp_zephyr_elf="y"
-          build_target_xtensa_nxp_imx8m_adsp_zephyr_elf="y"
-          build_target_xtensa_nxp_imx8ulp_adsp_zephyr_elf="y"
-          build_target_xtensa_nxp_rt500_adsp_zephyr_elf="y"
-          build_target_xtensa_nxp_rt600_adsp_zephyr_elf="y"
-          build_target_xtensa_nxp_rt700_hifi1_zephyr_elf="y"
-          build_target_xtensa_nxp_rt700_hifi4_zephyr_elf="y"
-          build_target_xtensa_sample_controller_zephyr_elf="y"
-          build_target_xtensa_sample_controller32_zephyr_elf="y"
-        fi
+          if [ "${build_target_all}" == "y" ]; then
+            build_target_aarch64_zephyr_elf="y"
+            build_target_arc64_zephyr_elf="y"
+            build_target_arc_zephyr_elf="y"
+            build_target_arm_zephyr_eabi="y"
+            build_target_armeb_zephyr_eabi="y"
+            build_target_microblazeel_zephyr_elf="y"
+            build_target_mips_zephyr_elf="y"
+            build_target_nios2_zephyr_elf="y"
+            build_target_riscv64_zephyr_elf="y"
+            build_target_rx_zephyr_elf="y"
+            build_target_sparc_zephyr_elf="y"
+            build_target_x86_64_zephyr_elf="y"
+            build_target_xtensa_amd_acp_6_0_adsp_zephyr_elf="y"
+            build_target_xtensa_dc233c_zephyr_elf="y"
+            build_target_xtensa_espressif_esp32_zephyr_elf="y"
+            build_target_xtensa_espressif_esp32s2_zephyr_elf="y"
+            build_target_xtensa_espressif_esp32s3_zephyr_elf="y"
+            build_target_xtensa_intel_ace15_mtpm_zephyr_elf="y"
+            build_target_xtensa_intel_ace30_ptl_zephyr_elf="y"
+            build_target_xtensa_intel_tgl_adsp_zephyr_elf="y"
+            build_target_xtensa_mtk_mt8195_adsp_zephyr_elf="y"
+            build_target_xtensa_mtk_mt818x_adsp_zephyr_elf="y"
+            build_target_xtensa_mtk_mt8196_adsp_zephyr_elf="y"
+            build_target_xtensa_mtk_mt8365_adsp_zephyr_elf="y"
+            build_target_xtensa_nxp_imx_adsp_zephyr_elf="y"
+            build_target_xtensa_nxp_imx8m_adsp_zephyr_elf="y"
+            build_target_xtensa_nxp_imx8ulp_adsp_zephyr_elf="y"
+            build_target_xtensa_nxp_rt500_adsp_zephyr_elf="y"
+            build_target_xtensa_nxp_rt600_adsp_zephyr_elf="y"
+            build_target_xtensa_nxp_rt700_hifi1_zephyr_elf="y"
+            build_target_xtensa_nxp_rt700_hifi4_zephyr_elf="y"
+            build_target_xtensa_sample_controller_zephyr_elf="y"
+            build_target_xtensa_sample_controller32_zephyr_elf="y"
+          fi
 
-        # Build 'linux_x86_64' by default if no host is selected
-        list_build_host=(${!build_host_@})
-        [ "${#list_build_host[@]}" == "0" ] && build_host_linux_x86_64="y"
+          # Build 'linux_x86_64' by default if no host is selected
+          list_build_host=(${!build_host_@})
+          [ "${#list_build_host[@]}" == "0" ] && build_host_linux_x86_64="y"
 
-        # Generate host list
-        MATRIX_HOSTS='['
+          # Generate host list
+          MATRIX_HOSTS='['
 
-        if [ "${build_host_linux_x86_64}" == "y" ]; then
-          MATRIX_HOSTS+='{
-              "name": "linux-x86_64",
-              "runner": "zephyr-runner-v2-linux-x64-4xlarge",
-              "container": "ghcr.io/zephyrproject-rtos/sdk-build:v1.3.9",
-              "archive": "tar.xz"
-            },'
-        fi
+          if [ "${build_host_linux_x86_64}" == "y" ]; then
+            MATRIX_HOSTS+='{
+                "name": "linux-x86_64",
+                "runner": "zephyr-runner-v2-linux-x64-4xlarge",
+                "container": "ghcr.io/zephyrproject-rtos/sdk-build:v1.3.9",
+                "archive": "tar.xz"
+              },'
+          fi
 
-        if [ "${build_host_linux_aarch64}" == "y" ]; then
-          MATRIX_HOSTS+='{
-              "name": "linux-aarch64",
-              "runner": "zephyr-runner-v2-linux-arm64-4xlarge",
-              "container": "ghcr.io/zephyrproject-rtos/sdk-build:v1.3.9",
-              "archive": "tar.xz"
-            },'
-        fi
+          if [ "${build_host_linux_aarch64}" == "y" ]; then
+            MATRIX_HOSTS+='{
+                "name": "linux-aarch64",
+                "runner": "zephyr-runner-v2-linux-arm64-4xlarge",
+                "container": "ghcr.io/zephyrproject-rtos/sdk-build:v1.3.9",
+                "archive": "tar.xz"
+              },'
+          fi
 
-        if [ "${build_host_macos_x86_64}" == "y" ]; then
-          MATRIX_HOSTS+='{
-              "name": "macos-x86_64",
-              "runner": "zephyr-runner-v2-macos-arm64-2xlarge",
-              "container": "",
-              "archive": "tar.xz"
-            },'
-        fi
+          if [ "${build_host_macos_x86_64}" == "y" ]; then
+            MATRIX_HOSTS+='{
+                "name": "macos-x86_64",
+                "runner": "zephyr-runner-v2-macos-arm64-2xlarge",
+                "container": "",
+                "archive": "tar.xz"
+              },'
+          fi
 
-        if [ "${build_host_macos_aarch64}" == "y" ]; then
-          MATRIX_HOSTS+='{
-              "name": "macos-aarch64",
-              "runner": "zephyr-runner-v2-macos-arm64-2xlarge",
-              "container": "",
-              "archive": "tar.xz"
-            },'
-        fi
+          if [ "${build_host_macos_aarch64}" == "y" ]; then
+            MATRIX_HOSTS+='{
+                "name": "macos-aarch64",
+                "runner": "zephyr-runner-v2-macos-arm64-2xlarge",
+                "container": "",
+                "archive": "tar.xz"
+              },'
+          fi
 
-        if [ "${build_host_windows_x86_64}" == "y" ]; then
-          MATRIX_HOSTS+='{
-              "name": "windows-x86_64",
-              "runner": "ubuntu-24.04",
-              "container": "ghcr.io/zephyrproject-rtos/sdk-build:v1.3.9",
-              "archive": "7z"
-            },'
-        fi
+          if [ "${build_host_windows_x86_64}" == "y" ]; then
+            MATRIX_HOSTS+='{
+                "name": "windows-x86_64",
+                "runner": "ubuntu-24.04",
+                "container": "ghcr.io/zephyrproject-rtos/sdk-build:v1.3.9",
+                "archive": "7z"
+              },'
+          fi
 
-        MATRIX_HOSTS+=']'
+          MATRIX_HOSTS+=']'
 
-        # Generate target list
-        MATRIX_TARGETS='['
-        [ "${build_target_aarch64_zephyr_elf}" == "y" ]                   && MATRIX_TARGETS+='"aarch64-zephyr-elf",'
-        [ "${build_target_arc64_zephyr_elf}" == "y" ]                     && MATRIX_TARGETS+='"arc64-zephyr-elf",'
-        [ "${build_target_arc_zephyr_elf}" == "y" ]                       && MATRIX_TARGETS+='"arc-zephyr-elf",'
-        [ "${build_target_arm_zephyr_eabi}" == "y" ]                      && MATRIX_TARGETS+='"arm-zephyr-eabi",'
-        [ "${build_target_armeb_zephyr_eabi}" == "y" ]                    && MATRIX_TARGETS+='"armeb-zephyr-eabi",'
-        [ "${build_target_microblazeel_zephyr_elf}" == "y" ]              && MATRIX_TARGETS+='"microblazeel-zephyr-elf",'
-        [ "${build_target_mips_zephyr_elf}" == "y" ]                      && MATRIX_TARGETS+='"mips-zephyr-elf",'
-        [ "${build_target_nios2_zephyr_elf}" == "y" ]                     && MATRIX_TARGETS+='"nios2-zephyr-elf",'
-        [ "${build_target_riscv64_zephyr_elf}" == "y" ]                   && MATRIX_TARGETS+='"riscv64-zephyr-elf",'
-        [ "${build_target_rx_zephyr_elf}" == "y" ]                        && MATRIX_TARGETS+='"rx-zephyr-elf",'
-        [ "${build_target_sparc_zephyr_elf}" == "y" ]                     && MATRIX_TARGETS+='"sparc-zephyr-elf",'
-        [ "${build_target_x86_64_zephyr_elf}" == "y" ]                    && MATRIX_TARGETS+='"x86_64-zephyr-elf",'
-        [ "${build_target_xtensa_amd_acp_6_0_adsp_zephyr_elf}" == "y" ]   && MATRIX_TARGETS+='"xtensa-amd_acp_6_0_adsp_zephyr-elf",'
-        [ "${build_target_xtensa_dc233c_zephyr_elf}" == "y" ]             && MATRIX_TARGETS+='"xtensa-dc233c_zephyr-elf",'
-        [ "${build_target_xtensa_espressif_esp32_zephyr_elf}" == "y" ]    && MATRIX_TARGETS+='"xtensa-espressif_esp32_zephyr-elf",'
-        [ "${build_target_xtensa_espressif_esp32s2_zephyr_elf}" == "y" ]  && MATRIX_TARGETS+='"xtensa-espressif_esp32s2_zephyr-elf",'
-        [ "${build_target_xtensa_espressif_esp32s3_zephyr_elf}" == "y" ]  && MATRIX_TARGETS+='"xtensa-espressif_esp32s3_zephyr-elf",'
-        [ "${build_target_xtensa_intel_ace15_mtpm_zephyr_elf}" == "y" ]   && MATRIX_TARGETS+='"xtensa-intel_ace15_mtpm_zephyr-elf",'
-        [ "${build_target_xtensa_intel_ace30_ptl_zephyr_elf}" == "y" ]   && MATRIX_TARGETS+='"xtensa-intel_ace30_ptl_zephyr-elf",'
-        [ "${build_target_xtensa_intel_tgl_adsp_zephyr_elf}" == "y" ]     && MATRIX_TARGETS+='"xtensa-intel_tgl_adsp_zephyr-elf",'
-        [ "${build_target_xtensa_mtk_mt8195_adsp_zephyr_elf}" == "y" ]    && MATRIX_TARGETS+='"xtensa-mtk_mt8195_adsp_zephyr-elf",'
-        [ "${build_target_xtensa_mtk_mt818x_adsp_zephyr_elf}" == "y" ]    && MATRIX_TARGETS+='"xtensa-mtk_mt818x_adsp_zephyr-elf",'
-        [ "${build_target_xtensa_mtk_mt8196_adsp_zephyr_elf}" == "y" ]    && MATRIX_TARGETS+='"xtensa-mtk_mt8196_adsp_zephyr-elf",'
-        [ "${build_target_xtensa_mtk_mt8365_adsp_zephyr_elf}" == "y" ]    && MATRIX_TARGETS+='"xtensa-mtk_mt8365_adsp_zephyr-elf",'
-        [ "${build_target_xtensa_nxp_imx_adsp_zephyr_elf}" == "y" ]       && MATRIX_TARGETS+='"xtensa-nxp_imx_adsp_zephyr-elf",'
-        [ "${build_target_xtensa_nxp_imx8m_adsp_zephyr_elf}" == "y" ]     && MATRIX_TARGETS+='"xtensa-nxp_imx8m_adsp_zephyr-elf",'
-        [ "${build_target_xtensa_nxp_imx8ulp_adsp_zephyr_elf}" == "y" ]   && MATRIX_TARGETS+='"xtensa-nxp_imx8ulp_adsp_zephyr-elf",'
-        [ "${build_target_xtensa_nxp_rt500_adsp_zephyr_elf}" == "y" ]     && MATRIX_TARGETS+='"xtensa-nxp_rt500_adsp_zephyr-elf",'
-        [ "${build_target_xtensa_nxp_rt600_adsp_zephyr_elf}" == "y" ]     && MATRIX_TARGETS+='"xtensa-nxp_rt600_adsp_zephyr-elf",'
-        [ "${build_target_xtensa_nxp_rt700_hifi1_zephyr_elf}" == "y" ]    && MATRIX_TARGETS+='"xtensa-nxp_rt700_hifi1_zephyr-elf",'
-        [ "${build_target_xtensa_nxp_rt700_hifi4_zephyr_elf}" == "y" ]    && MATRIX_TARGETS+='"xtensa-nxp_rt700_hifi4_zephyr-elf",'
-        [ "${build_target_xtensa_sample_controller_zephyr_elf}" == "y" ]  && MATRIX_TARGETS+='"xtensa-sample_controller_zephyr-elf",'
-        [ "${build_target_xtensa_sample_controller32_zephyr_elf}" == "y" ] && MATRIX_TARGETS+='"xtensa-sample_controller32_zephyr-elf",'
-        MATRIX_TARGETS+=']'
+          # Generate target list
+          MATRIX_TARGETS='['
+          [ "${build_target_aarch64_zephyr_elf}" == "y" ]                   && MATRIX_TARGETS+='"aarch64-zephyr-elf",'
+          [ "${build_target_arc64_zephyr_elf}" == "y" ]                     && MATRIX_TARGETS+='"arc64-zephyr-elf",'
+          [ "${build_target_arc_zephyr_elf}" == "y" ]                       && MATRIX_TARGETS+='"arc-zephyr-elf",'
+          [ "${build_target_arm_zephyr_eabi}" == "y" ]                      && MATRIX_TARGETS+='"arm-zephyr-eabi",'
+          [ "${build_target_armeb_zephyr_eabi}" == "y" ]                    && MATRIX_TARGETS+='"armeb-zephyr-eabi",'
+          [ "${build_target_microblazeel_zephyr_elf}" == "y" ]              && MATRIX_TARGETS+='"microblazeel-zephyr-elf",'
+          [ "${build_target_mips_zephyr_elf}" == "y" ]                      && MATRIX_TARGETS+='"mips-zephyr-elf",'
+          [ "${build_target_nios2_zephyr_elf}" == "y" ]                     && MATRIX_TARGETS+='"nios2-zephyr-elf",'
+          [ "${build_target_riscv64_zephyr_elf}" == "y" ]                   && MATRIX_TARGETS+='"riscv64-zephyr-elf",'
+          [ "${build_target_rx_zephyr_elf}" == "y" ]                        && MATRIX_TARGETS+='"rx-zephyr-elf",'
+          [ "${build_target_sparc_zephyr_elf}" == "y" ]                     && MATRIX_TARGETS+='"sparc-zephyr-elf",'
+          [ "${build_target_x86_64_zephyr_elf}" == "y" ]                    && MATRIX_TARGETS+='"x86_64-zephyr-elf",'
+          [ "${build_target_xtensa_amd_acp_6_0_adsp_zephyr_elf}" == "y" ]   && MATRIX_TARGETS+='"xtensa-amd_acp_6_0_adsp_zephyr-elf",'
+          [ "${build_target_xtensa_dc233c_zephyr_elf}" == "y" ]             && MATRIX_TARGETS+='"xtensa-dc233c_zephyr-elf",'
+          [ "${build_target_xtensa_espressif_esp32_zephyr_elf}" == "y" ]    && MATRIX_TARGETS+='"xtensa-espressif_esp32_zephyr-elf",'
+          [ "${build_target_xtensa_espressif_esp32s2_zephyr_elf}" == "y" ]  && MATRIX_TARGETS+='"xtensa-espressif_esp32s2_zephyr-elf",'
+          [ "${build_target_xtensa_espressif_esp32s3_zephyr_elf}" == "y" ]  && MATRIX_TARGETS+='"xtensa-espressif_esp32s3_zephyr-elf",'
+          [ "${build_target_xtensa_intel_ace15_mtpm_zephyr_elf}" == "y" ]   && MATRIX_TARGETS+='"xtensa-intel_ace15_mtpm_zephyr-elf",'
+          [ "${build_target_xtensa_intel_ace30_ptl_zephyr_elf}" == "y" ]   && MATRIX_TARGETS+='"xtensa-intel_ace30_ptl_zephyr-elf",'
+          [ "${build_target_xtensa_intel_tgl_adsp_zephyr_elf}" == "y" ]     && MATRIX_TARGETS+='"xtensa-intel_tgl_adsp_zephyr-elf",'
+          [ "${build_target_xtensa_mtk_mt8195_adsp_zephyr_elf}" == "y" ]    && MATRIX_TARGETS+='"xtensa-mtk_mt8195_adsp_zephyr-elf",'
+          [ "${build_target_xtensa_mtk_mt818x_adsp_zephyr_elf}" == "y" ]    && MATRIX_TARGETS+='"xtensa-mtk_mt818x_adsp_zephyr-elf",'
+          [ "${build_target_xtensa_mtk_mt8196_adsp_zephyr_elf}" == "y" ]    && MATRIX_TARGETS+='"xtensa-mtk_mt8196_adsp_zephyr-elf",'
+          [ "${build_target_xtensa_mtk_mt8365_adsp_zephyr_elf}" == "y" ]    && MATRIX_TARGETS+='"xtensa-mtk_mt8365_adsp_zephyr-elf",'
+          [ "${build_target_xtensa_nxp_imx_adsp_zephyr_elf}" == "y" ]       && MATRIX_TARGETS+='"xtensa-nxp_imx_adsp_zephyr-elf",'
+          [ "${build_target_xtensa_nxp_imx8m_adsp_zephyr_elf}" == "y" ]     && MATRIX_TARGETS+='"xtensa-nxp_imx8m_adsp_zephyr-elf",'
+          [ "${build_target_xtensa_nxp_imx8ulp_adsp_zephyr_elf}" == "y" ]   && MATRIX_TARGETS+='"xtensa-nxp_imx8ulp_adsp_zephyr-elf",'
+          [ "${build_target_xtensa_nxp_rt500_adsp_zephyr_elf}" == "y" ]     && MATRIX_TARGETS+='"xtensa-nxp_rt500_adsp_zephyr-elf",'
+          [ "${build_target_xtensa_nxp_rt600_adsp_zephyr_elf}" == "y" ]     && MATRIX_TARGETS+='"xtensa-nxp_rt600_adsp_zephyr-elf",'
+          [ "${build_target_xtensa_nxp_rt700_hifi1_zephyr_elf}" == "y" ]    && MATRIX_TARGETS+='"xtensa-nxp_rt700_hifi1_zephyr-elf",'
+          [ "${build_target_xtensa_nxp_rt700_hifi4_zephyr_elf}" == "y" ]    && MATRIX_TARGETS+='"xtensa-nxp_rt700_hifi4_zephyr-elf",'
+          [ "${build_target_xtensa_sample_controller_zephyr_elf}" == "y" ]  && MATRIX_TARGETS+='"xtensa-sample_controller_zephyr-elf",'
+          [ "${build_target_xtensa_sample_controller32_zephyr_elf}" == "y" ] && MATRIX_TARGETS+='"xtensa-sample_controller32_zephyr-elf",'
+          MATRIX_TARGETS+=']'
 
-        # Generate test environment list
-        MATRIX_TESTENVS='['
+          # Generate test environment list
+          MATRIX_TESTENVS='['
 
-        if [ "${build_host_linux_x86_64}" == "y" ]; then
-          MATRIX_TESTENVS+='{
-              "name": "ubuntu-24.04-x86_64",
-              "runner": "zephyr-runner-v2-linux-x64-4xlarge",
-              "container": "ghcr.io/zephyrproject-rtos/ci:master",
-              "bundle-host": "linux-x86_64",
-              "bundle-archive": "tar.xz"
-            },'
-        fi
+          if [ "${build_host_linux_x86_64}" == "y" ]; then
+            MATRIX_TESTENVS+='{
+                "name": "ubuntu-24.04-x86_64",
+                "runner": "zephyr-runner-v2-linux-x64-4xlarge",
+                "container": "ghcr.io/zephyrproject-rtos/ci:master",
+                "bundle-host": "linux-x86_64",
+                "bundle-archive": "tar.xz"
+              },'
+          fi
 
-        if [ "${build_host_linux_aarch64}" == "y" ]; then
-          MATRIX_TESTENVS+='{
-              "name": "ubuntu-24.04-aarch64",
-              "runner": "zephyr-runner-v2-linux-arm64-4xlarge",
-              "container": "ghcr.io/zephyrproject-rtos/ci:master",
-              "bundle-host": "linux-aarch64",
-              "bundle-archive": "tar.xz"
-            },'
-        fi
+          if [ "${build_host_linux_aarch64}" == "y" ]; then
+            MATRIX_TESTENVS+='{
+                "name": "ubuntu-24.04-aarch64",
+                "runner": "zephyr-runner-v2-linux-arm64-4xlarge",
+                "container": "ghcr.io/zephyrproject-rtos/ci:master",
+                "bundle-host": "linux-aarch64",
+                "bundle-archive": "tar.xz"
+              },'
+          fi
 
-        if [ "${build_host_macos_x86_64}" == "y" ]; then
-          MATRIX_TESTENVS+='{
-              "name": "macos-15-x86_64",
-              "runner": "zephyr-runner-v2-macos-arm64-2xlarge",
-              "container": "",
-              "bundle-host": "macos-x86_64",
-              "bundle-archive": "tar.xz"
-            },'
-        fi
+          if [ "${build_host_macos_x86_64}" == "y" ]; then
+            MATRIX_TESTENVS+='{
+                "name": "macos-15-x86_64",
+                "runner": "zephyr-runner-v2-macos-arm64-2xlarge",
+                "container": "",
+                "bundle-host": "macos-x86_64",
+                "bundle-archive": "tar.xz"
+              },'
+          fi
 
-        if [ "${build_host_macos_aarch64}" == "y" ]; then
-          MATRIX_TESTENVS+='{
-              "name": "macos-15-aarch64",
-              "runner": "zephyr-runner-v2-macos-arm64-2xlarge",
-              "container": "",
-              "bundle-host": "macos-aarch64",
-              "bundle-archive": "tar.xz"
-            },'
-        fi
+          if [ "${build_host_macos_aarch64}" == "y" ]; then
+            MATRIX_TESTENVS+='{
+                "name": "macos-15-aarch64",
+                "runner": "zephyr-runner-v2-macos-arm64-2xlarge",
+                "container": "",
+                "bundle-host": "macos-aarch64",
+                "bundle-archive": "tar.xz"
+              },'
+          fi
 
-        if [ "${build_host_windows_x86_64}" == "y" ]; then
-          MATRIX_TESTENVS+='{
-              "name": "windows-2022-x86_64",
-              "runner": "windows-latest",
-              "container": "",
-              "bundle-host": "windows-x86_64",
-              "bundle-archive": "7z"
-            },'
-        fi
+          if [ "${build_host_windows_x86_64}" == "y" ]; then
+            MATRIX_TESTENVS+='{
+                "name": "windows-2022-x86_64",
+                "runner": "windows-latest",
+                "container": "",
+                "bundle-host": "windows-x86_64",
+                "bundle-archive": "7z"
+              },'
+          fi
 
-        MATRIX_TESTENVS+=']'
+          MATRIX_TESTENVS+=']'
 
-        # Escape control characters because GitHub Actions
-        MATRIX_HOSTS="${MATRIX_HOSTS//'%'/''}"
-        MATRIX_HOSTS="${MATRIX_HOSTS//$'\n'/''}"
-        MATRIX_HOSTS="${MATRIX_HOSTS//$'\r'/''}"
-        MATRIX_TARGETS="${MATRIX_TARGETS//'%'/''}"
-        MATRIX_TARGETS="${MATRIX_TARGETS//$'\n'/''}"
-        MATRIX_TARGETS="${MATRIX_TARGETS//$'\r'/''}"
-        MATRIX_TESTENVS="${MATRIX_TESTENVS//'%'/''}"
-        MATRIX_TESTENVS="${MATRIX_TESTENVS//$'\n'/''}"
-        MATRIX_TESTENVS="${MATRIX_TESTENVS//$'\r'/''}"
+          # Escape control characters because GitHub Actions
+          MATRIX_HOSTS="${MATRIX_HOSTS//'%'/''}"
+          MATRIX_HOSTS="${MATRIX_HOSTS//$'\n'/''}"
+          MATRIX_HOSTS="${MATRIX_HOSTS//$'\r'/''}"
+          MATRIX_TARGETS="${MATRIX_TARGETS//'%'/''}"
+          MATRIX_TARGETS="${MATRIX_TARGETS//$'\n'/''}"
+          MATRIX_TARGETS="${MATRIX_TARGETS//$'\r'/''}"
+          MATRIX_TESTENVS="${MATRIX_TESTENVS//'%'/''}"
+          MATRIX_TESTENVS="${MATRIX_TESTENVS//$'\n'/''}"
+          MATRIX_TESTENVS="${MATRIX_TESTENVS//$'\r'/''}"
 
-        # Remove trailing comma
-        MATRIX_HOSTS=$(echo "${MATRIX_HOSTS}" | sed -zr 's/,([^,]*$)/\1/')
-        MATRIX_TARGETS=$(echo "${MATRIX_TARGETS}" | sed -zr 's/,([^,]*$)/\1/')
-        MATRIX_TESTENVS=$(echo "${MATRIX_TESTENVS}" | sed -zr 's/,([^,]*$)/\1/')
+          # Remove trailing comma
+          MATRIX_HOSTS=$(echo "${MATRIX_HOSTS}" | sed -zr 's/,([^,]*$)/\1/')
+          MATRIX_TARGETS=$(echo "${MATRIX_TARGETS}" | sed -zr 's/,([^,]*$)/\1/')
+          MATRIX_TESTENVS=$(echo "${MATRIX_TESTENVS}" | sed -zr 's/,([^,]*$)/\1/')
 
-        # Output matrix variables
-        echo "hosts=${MATRIX_HOSTS}" >> $GITHUB_OUTPUT
-        echo "targets=${MATRIX_TARGETS}" >> $GITHUB_OUTPUT
-        echo "testenvs=${MATRIX_TESTENVS}" >> $GITHUB_OUTPUT
-        echo "debug=${MATRIX_DEBUG}" >> $GITHUB_OUTPUT
-        echo "aws=${MATRIX_AWS}" >> $GITHUB_OUTPUT
-        echo "test=${MATRIX_TEST}" >> $GITHUB_OUTPUT
+          # Output matrix variables
+          echo "hosts=${MATRIX_HOSTS}" >> $GITHUB_OUTPUT
+          echo "targets=${MATRIX_TARGETS}" >> $GITHUB_OUTPUT
+          echo "testenvs=${MATRIX_TESTENVS}" >> $GITHUB_OUTPUT
+          echo "debug=${MATRIX_DEBUG}" >> $GITHUB_OUTPUT
+          echo "aws=${MATRIX_AWS}" >> $GITHUB_OUTPUT
+          echo "test=${MATRIX_TEST}" >> $GITHUB_OUTPUT
 
-        # Prepare configuration report
-        CONFIG_REPORT=${RUNNER_TEMP}/config-report.txt
+          # Prepare configuration report
+          CONFIG_REPORT=${RUNNER_TEMP}/config-report.txt
 
-        echo "Hosts:" > ${CONFIG_REPORT}
-        echo "$(echo "${MATRIX_HOSTS}" | jq)" >> ${CONFIG_REPORT}
-        echo "" >> ${CONFIG_REPORT}
+          echo "Hosts:" > ${CONFIG_REPORT}
+          echo "$(echo "${MATRIX_HOSTS}" | jq)" >> ${CONFIG_REPORT}
+          echo "" >> ${CONFIG_REPORT}
 
-        echo "Targets:" >> ${CONFIG_REPORT}
-        echo "$(echo "${MATRIX_TARGETS}" | jq)" >> ${CONFIG_REPORT}
-        echo "" >> ${CONFIG_REPORT}
+          echo "Targets:" >> ${CONFIG_REPORT}
+          echo "$(echo "${MATRIX_TARGETS}" | jq)" >> ${CONFIG_REPORT}
+          echo "" >> ${CONFIG_REPORT}
 
-        echo "Test Environments:" >> ${CONFIG_REPORT}
-        echo "$(echo "${MATRIX_TESTENVS}" | jq)" >> ${CONFIG_REPORT}
+          echo "Test Environments:" >> ${CONFIG_REPORT}
+          echo "$(echo "${MATRIX_TESTENVS}" | jq)" >> ${CONFIG_REPORT}
 
-        CONFIG_REPORT_CONTENT=$(cat ${CONFIG_REPORT})
-        CONFIG_REPORT_CONTENT="${CONFIG_REPORT_CONTENT//'%'/'%25'}"
-        CONFIG_REPORT_CONTENT="${CONFIG_REPORT_CONTENT//$'\n'/'%0A'}"
-        CONFIG_REPORT_CONTENT="${CONFIG_REPORT_CONTENT//$'\r'/'%0D'}"
-        echo "::notice:: ${CONFIG_REPORT_CONTENT}"
+          CONFIG_REPORT_CONTENT=$(cat ${CONFIG_REPORT})
+          CONFIG_REPORT_CONTENT="${CONFIG_REPORT_CONTENT//'%'/'%25'}"
+          CONFIG_REPORT_CONTENT="${CONFIG_REPORT_CONTENT//$'\n'/'%0A'}"
+          CONFIG_REPORT_CONTENT="${CONFIG_REPORT_CONTENT//$'\r'/'%0D'}"
+          echo "::notice:: ${CONFIG_REPORT_CONTENT}"
 
   # Build toolchain
   build-toolchain:
@@ -489,434 +517,434 @@ jobs:
         target: ${{ fromJSON(needs.setup.outputs.targets) }}
 
     steps:
-    # - name: echo-default-env-variables
-    #   run: |
-    #     whoami
-    #     echo "Shell: ${SHELL}"
-    #     echo "Home: ${HOME}"
-    #     echo "RUNNER_NAME: ${RUNNER_NAME}"
-    #     echo "RUNNER_TEMP: ${RUNNER_TEMP}"
-    #     echo "GITHUB_WORKFLOW: ${GITHUB_WORKFLOW}"
-    #     echo "GITHUB_ACTIONS: ${GITHUB_ACTIONS}"
-    #     echo "GITHUB_ACTOR: ${GITHUB_ACTOR}"
-    #     echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}"
-    #     echo "GITHUB_EVENT_NAME: ${GITHUB_EVENT_NAME}"
-    #     echo "GITHUB_WORKSPACE: ${GITHUB_WORKSPACE}"
-    #     echo "GITHUB_SHA: ${GITHUB_SHA}"
-    #     echo "GITHUB_REF: ${GITHUB_REF}"
+      # - name: echo-default-env-variables
+      #   run: |
+      #     whoami
+      #     echo "Shell: ${SHELL}"
+      #     echo "Home: ${HOME}"
+      #     echo "RUNNER_NAME: ${RUNNER_NAME}"
+      #     echo "RUNNER_TEMP: ${RUNNER_TEMP}"
+      #     echo "GITHUB_WORKFLOW: ${GITHUB_WORKFLOW}"
+      #     echo "GITHUB_ACTIONS: ${GITHUB_ACTIONS}"
+      #     echo "GITHUB_ACTOR: ${GITHUB_ACTOR}"
+      #     echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}"
+      #     echo "GITHUB_EVENT_NAME: ${GITHUB_EVENT_NAME}"
+      #     echo "GITHUB_WORKSPACE: ${GITHUB_WORKSPACE}"
+      #     echo "GITHUB_SHA: ${GITHUB_SHA}"
+      #     echo "GITHUB_REF: ${GITHUB_REF}"
 
-    - name: Set up build environment (Linux)
-      if: ${{ runner.os == 'Linux' }}
-      run: |
-        # Create workspace directory
-        WORKSPACE="${RUNNER_TEMP}/workspace"
-        sudo mkdir -p ${WORKSPACE}
+      - name: Set up build environment (Linux)
+        if: ${{ runner.os == 'Linux' }}
+        run: |
+          # Create workspace directory
+          WORKSPACE="${RUNNER_TEMP}/workspace"
+          sudo mkdir -p ${WORKSPACE}
 
-        # Clean up working directories
-        shopt -s dotglob
-        sudo rm -rf ${GITHUB_WORKSPACE}/*
-        sudo rm -rf ${WORKSPACE}/*
-        shopt -u dotglob
+          # Clean up working directories
+          shopt -s dotglob
+          sudo rm -rf ${GITHUB_WORKSPACE}/*
+          sudo rm -rf ${WORKSPACE}/*
+          shopt -u dotglob
 
-        # Allow non-root access to the working directories
-        sudo chmod -R 777 ${GITHUB_WORKSPACE}
-        sudo chmod -R 777 ${RUNNER_TEMP}
+          # Allow non-root access to the working directories
+          sudo chmod -R 777 ${GITHUB_WORKSPACE}
+          sudo chmod -R 777 ${RUNNER_TEMP}
 
-        # Install common dependencies
-        sudo apt-get update
-        sudo apt-get install -y autoconf automake bison flex gettext \
-                                help2man libboost-dev libboost-regex-dev \
-                                libncurses5-dev libtool-bin libtool-doc \
-                                pkg-config texinfo p7zip
+          # Install common dependencies
+          sudo apt-get update
+          sudo apt-get install -y autoconf automake bison flex gettext \
+                                  help2man libboost-dev libboost-regex-dev \
+                                  libncurses5-dev libtool-bin libtool-doc \
+                                  pkg-config texinfo p7zip
 
-        # Install dependencies for cross compilation
-        if [ "${{ matrix.host.name }}" == "windows-x86_64" ]; then
-          # Install MinGW-w64 cross toolchain
-          sudo apt-get install -y binutils-mingw-w64 gcc-mingw-w64 \
-                                  g++-mingw-w64
+          # Install dependencies for cross compilation
+          if [ "${{ matrix.host.name }}" == "windows-x86_64" ]; then
+            # Install MinGW-w64 cross toolchain
+            sudo apt-get install -y binutils-mingw-w64 gcc-mingw-w64 \
+                                    g++-mingw-w64
 
-          # Build and install libboost-regex for MinGW-w64 host
-          ## Check out Boost library source code
-          mkdir -p ${WORKSPACE}/boost
-          pushd ${WORKSPACE}/boost
+            # Build and install libboost-regex for MinGW-w64 host
+            ## Check out Boost library source code
+            mkdir -p ${WORKSPACE}/boost
+            pushd ${WORKSPACE}/boost
 
-          git clone \
-            --branch boost-1.73.0 --depth 1 \
-            https://github.com/boostorg/boost.git \
-            src
+            git clone \
+              --branch boost-1.73.0 --depth 1 \
+              https://github.com/boostorg/boost.git \
+              src
 
-          cd src
-          git submodule update --init --depth 1
+            cd src
+            git submodule update --init --depth 1
 
-          ## Bootstrap boost library build system with MinGW-w64 compiler
-          ./bootstrap.sh --with-toolset=gcc --with-libraries=regex --without-icu
+            ## Bootstrap boost library build system with MinGW-w64 compiler
+            ./bootstrap.sh --with-toolset=gcc --with-libraries=regex --without-icu
 
-          sed -i \
-            's/using gcc ;/using gcc : mingw : x86_64-w64-mingw32-g++ ;/g' \
-            project-config.jam
+            sed -i \
+              's/using gcc ;/using gcc : mingw : x86_64-w64-mingw32-g++ ;/g' \
+              project-config.jam
 
-          ## Build and install boost-regex library
-          sudo ./b2 install \
-            toolset=gcc-mingw link=static threading=multi variant=release \
-            --prefix=/usr/x86_64-w64-mingw32
+            ## Build and install boost-regex library
+            sudo ./b2 install \
+              toolset=gcc-mingw link=static threading=multi variant=release \
+              --prefix=/usr/x86_64-w64-mingw32
 
-          ## Clean up to reduce disk usage
-          popd
-          sudo rm -rf ${WORKSPACE}/boost
-        fi
-
-        # Set environment variables
-        echo "TAR=tar" >> $GITHUB_ENV
-        echo "WORKSPACE=${WORKSPACE}" >> $GITHUB_ENV
-
-    - name: Set up build environment (macOS)
-      if: ${{ runner.os == 'macOS' }}
-      run: |
-        # Delete workspace from the previous run
-        WORKSPACE="/Volumes/Workspace"
-        if [ -d ${WORKSPACE} ]; then
-          # Get disk device name
-          OLDDISK=$(diskutil info -plist "${WORKSPACE}" |
-                    plutil -extract ParentWholeDisk xml1 - -o - |
-                    sed -n "s/.*<string>\(.*\)<\/string>.*/\1/p")
-
-          # Force unmount and eject to deallocate disk blocks
-          if [ ! -z "${OLDDISK}" ]; then
-            diskutil unmountDisk force ${OLDDISK}
-            diskutil eject ${OLDDISK}
+            ## Clean up to reduce disk usage
+            popd
+            sudo rm -rf ${WORKSPACE}/boost
           fi
-        fi
 
-        # Clean up working directories
-        shopt -s dotglob
-        rm -rf ${GITHUB_WORKSPACE}/*
-        rm -f ${RUNNER_TEMP}/Workspace.sparseimage
-        shopt -u dotglob
+          # Set environment variables
+          echo "TAR=tar" >> $GITHUB_ENV
+          echo "WORKSPACE=${WORKSPACE}" >> $GITHUB_ENV
 
-        # Create case-sensitive workspace volume for macOS
-        hdiutil create ${RUNNER_TEMP}/Workspace.sparseimage \
-                       -volname Workspace -type SPARSE -size 150g -fs HFSX
-        hdiutil mount ${RUNNER_TEMP}/Workspace.sparseimage -mountpoint ${WORKSPACE}
+      - name: Set up build environment (macOS)
+        if: ${{ runner.os == 'macOS' }}
+        run: |
+          # Delete workspace from the previous run
+          WORKSPACE="/Volumes/Workspace"
+          if [ -d ${WORKSPACE} ]; then
+            # Get disk device name
+            OLDDISK=$(diskutil info -plist "${WORKSPACE}" |
+                      plutil -extract ParentWholeDisk xml1 - -o - |
+                      sed -n "s/.*<string>\(.*\)<\/string>.*/\1/p")
 
-        # Install required dependencies if running inside a GitHub-hosted runner
-        # (self-hosted runners are expected to provide all required dependencies)
-        if [[ "${{ matrix.host.runner }}" =~ ^macos.* ]]; then
-          brew install autoconf automake bash binutils boost coreutils gawk \
-                       gnu-sed gnu-tar help2man meson ncurses ninja pkg-config
-        fi
+            # Force unmount and eject to deallocate disk blocks
+            if [ ! -z "${OLDDISK}" ]; then
+              diskutil unmountDisk force ${OLDDISK}
+              diskutil eject ${OLDDISK}
+            fi
+          fi
 
-        # Install Python 3.10 (temporary until the sdk-build-macos image is
-        # updated)
-        brew install python@3.10
+          # Clean up working directories
+          shopt -s dotglob
+          rm -rf ${GITHUB_WORKSPACE}/*
+          rm -f ${RUNNER_TEMP}/Workspace.sparseimage
+          shopt -u dotglob
 
-        # Install dependencies for cross compilation
-        if [ "${{ matrix.host.name }}" == "macos-x86_64" ]; then
-          # Make crosskit available in PATH
-          echo "${GITHUB_WORKSPACE}/crosskit/crosskit-x86_64-apple-darwin/scripts" >> $GITHUB_PATH
-        fi
+          # Create case-sensitive workspace volume for macOS
+          hdiutil create ${RUNNER_TEMP}/Workspace.sparseimage \
+                         -volname Workspace -type SPARSE -size 150g -fs HFSX
+          hdiutil mount ${RUNNER_TEMP}/Workspace.sparseimage -mountpoint ${WORKSPACE}
 
-        # Make Python 3.10 available in PATH
-        echo "${HOMEBREW_PREFIX}/opt/python@3.10/bin" >> $GITHUB_PATH
+          # Install required dependencies if running inside a GitHub-hosted runner
+          # (self-hosted runners are expected to provide all required dependencies)
+          if [[ "${{ matrix.host.runner }}" =~ ^macos.* ]]; then
+            brew install autoconf automake bash binutils boost coreutils gawk \
+                         gnu-sed gnu-tar help2man meson ncurses ninja pkg-config
+          fi
 
-        # Set environment variables
-        echo "TAR=gtar" >> $GITHUB_ENV
-        echo "WORKSPACE=${WORKSPACE}" >> $GITHUB_ENV
+          # Install Python 3.10 (temporary until the sdk-build-macos image is
+          # updated)
+          brew install python@3.10
 
-    - name: Check out source code
-      if: ${{ github.event_name != 'pull_request_target' }}
-      uses: actions/checkout@v4
-      with:
-        submodules: recursive
-        persist-credentials: false
+          # Install dependencies for cross compilation
+          if [ "${{ matrix.host.name }}" == "macos-x86_64" ]; then
+            # Make crosskit available in PATH
+            echo "${GITHUB_WORKSPACE}/crosskit/crosskit-x86_64-apple-darwin/scripts" >> $GITHUB_PATH
+          fi
 
-    - name: Check out source code (pull request)
-      if: ${{ github.event_name == 'pull_request_target' }}
-      uses: actions/checkout@v4
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
-        submodules: recursive
-        persist-credentials: false
+          # Make Python 3.10 available in PATH
+          echo "${HOMEBREW_PREFIX}/opt/python@3.10/bin" >> $GITHUB_PATH
 
-    - name: Build crosstool-ng
-      run: |
-        # Configure macOS build environment
-        if [ "$RUNNER_OS" == "macOS" ]; then
-          export PATH="$PATH:${HOMEBREW_PREFIX}/opt/binutils/bin"
-          export CPPFLAGS="-I${HOMEBREW_PREFIX}/opt/ncurses/include -I${HOMEBREW_PREFIX}/opt/gettext/include"
-          export LDFLAGS="-L${HOMEBREW_PREFIX}/opt/ncurses/lib -L${HOMEBREW_PREFIX}/opt/gettext/lib"
-        fi
+          # Set environment variables
+          echo "TAR=gtar" >> $GITHUB_ENV
+          echo "WORKSPACE=${WORKSPACE}" >> $GITHUB_ENV
 
-        # Create build directory
-        pushd ${WORKSPACE}
-        mkdir -p crosstool-ng-build
-        cd crosstool-ng-build
+      - name: Check out source code
+        if: ${{ github.event_name != 'pull_request_target' }}
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          persist-credentials: false
 
-        # Bootstrap crosstool-ng
-        pushd ${GITHUB_WORKSPACE}/crosstool-ng
-        ./bootstrap
-        popd
+      - name: Check out source code (pull request)
+        if: ${{ github.event_name == 'pull_request_target' }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          submodules: recursive
+          persist-credentials: false
 
-        # Build and install crosstool-ng
-        ${GITHUB_WORKSPACE}/crosstool-ng/configure --prefix=${WORKSPACE}/crosstool-ng
-        make
-        make install
+      - name: Build crosstool-ng
+        run: |
+          # Configure macOS build environment
+          if [ "$RUNNER_OS" == "macOS" ]; then
+            export PATH="$PATH:${HOMEBREW_PREFIX}/opt/binutils/bin"
+            export CPPFLAGS="-I${HOMEBREW_PREFIX}/opt/ncurses/include -I${HOMEBREW_PREFIX}/opt/gettext/include"
+            export LDFLAGS="-L${HOMEBREW_PREFIX}/opt/ncurses/lib -L${HOMEBREW_PREFIX}/opt/gettext/lib"
+          fi
 
-        # Clean up build directory to reduce disk usage
-        popd
-        rm -rf ${WORKSPACE}/crosstool-ng-build
+          # Create build directory
+          pushd ${WORKSPACE}
+          mkdir -p crosstool-ng-build
+          cd crosstool-ng-build
 
-        # Export crosstool-ng executable path
-        echo "CT_NG=${WORKSPACE}/crosstool-ng/bin/ct-ng" >> $GITHUB_ENV
-
-    - name: Test crosstool-ng
-      run: |
-        ${CT_NG} version
-
-    - name: Download version information
-      uses: actions/download-artifact@v4
-      with:
-        name: version
-        path: ${{ runner.temp }}
-
-    - name: Configure AWS Credentials
-      if: always() && needs.setup.outputs.aws == 'aws'
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        aws-access-key-id: ${{ secrets.AWS_CACHE_SDK_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_CACHE_SDK_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
-
-    - name: Download cached source files
-      if: always() && needs.setup.outputs.aws == 'aws'
-      continue-on-error: true
-      run: |
-        SRC_CACHE_BASE="s3://cache-sdk/crosstool-ng-sources"
-        SRC_CACHE_DIR="${{ matrix.host.name }}/${{ matrix.target }}"
-        SRC_CACHE_URI="${SRC_CACHE_BASE}/${SRC_CACHE_DIR}"
-
-        # Download cached source files
-        mkdir -p ${WORKSPACE}/sources
-        pushd ${WORKSPACE}/sources
-        aws s3 sync ${SRC_CACHE_URI} .
-        popd
-
-        # Export environment variables
-        echo "SRC_CACHE_URI=${SRC_CACHE_URI}" >> $GITHUB_ENV
-
-    - name: Setup debug session (pre)
-      if: always() && needs.setup.outputs.debug == 'toolchain-pre'
-      uses: mxschmitt/action-tmate@v3
-      with:
-        limit-access-to-actor: true
-
-    - name: Build toolchain
-      run: |
-        # Set output path
-        export CT_PREFIX="${WORKSPACE}/output"
-
-        # Create build directory
-        mkdir -p ${WORKSPACE}/build
-        pushd ${WORKSPACE}/build
-
-        # Load default target configurations
-        cat ${GITHUB_WORKSPACE}/configs/common.config \
-            ${GITHUB_WORKSPACE}/configs/${{ matrix.target }}.config \
-            > .config
-
-        # Set version information
-        cat <<EOF >> .config
-        CT_SHOW_CT_VERSION=n
-        CT_TOOLCHAIN_PKGVERSION="${{ env.BUNDLE_NAME }} $(<${RUNNER_TEMP}/version)"
-        CT_TOOLCHAIN_BUGURL="${{ env.BUG_URL }}"
-        EOF
-
-        # Set environment configuration
-        cat <<EOF >> .config
-        CT_LOCAL_TARBALLS_DIR="${WORKSPACE}/sources"
-        CT_OVERLAY_LOCATION="${GITHUB_WORKSPACE}/overlays"
-        EOF
-
-        # Set logging configurations
-        cat <<EOF >> .config
-        CT_LOG_PROGRESS_BAR=n
-        CT_LOG_EXTRA=y
-        CT_LOG_LEVEL_MAX="EXTRA"
-        EOF
-
-        # Set Canadian cross compilation configurations
-        if [ "${{ matrix.host.name }}" == "macos-x86_64" ]; then
-          # Building for macos-x86_64 on macos-aarch64
-          cat <<EOF >> .config
-        CT_CANADIAN=y
-        CT_HOST="x86_64-apple-darwin"
-        EOF
-        elif [ "${{ matrix.host.name }}" == "windows-x86_64" ]; then
-          # Building for windows-x86_64 on linux-x86_64
-          cat <<EOF >> .config
-        CT_CANADIAN=y
-        CT_HOST="x86_64-w64-mingw32"
-        EOF
-        fi
-
-        # Configure GDB Python scripting support
-        cat <<EOF >> .config
-        CT_GDB_CROSS_PYTHON=y
-        CT_GDB_CROSS_PYTHON_VARIANT=y
-        EOF
-
-        if [ "${{ matrix.host.name }}" == "macos-x86_64" ]; then
-          # Use Python 3.10.15
-          export LIBPYTHON_KIT_ROOT=${GITHUB_WORKSPACE}/crosskit/crosskit-x86_64-darwin-libpython/python-3.10.15
-          # Set Python configuration resolver for GDB
-          cat <<EOF >> .config
-        CT_GDB_CROSS_PYTHON_BINARY="${LIBPYTHON_KIT_ROOT}/bin/python"
-        EOF
-        elif [ "${{ matrix.host.name }}" == "windows-x86_64" ]; then
-          # Use Python 3.10.11
-          export LIBPYTHON_KIT_ROOT=${GITHUB_WORKSPACE}/crosskit/crosskit-mingw-w64-libpython/python-3.10.11
-          # Set Python configuration resolver for GDB
-          cat <<EOF >> .config
-        CT_GDB_CROSS_PYTHON_BINARY="${LIBPYTHON_KIT_ROOT}/bin/python"
-        EOF
-        else
-          # Use Python 3.10 for non-Canadian Linux and macOS builds
-          cat <<EOF >> .config
-        CT_GDB_CROSS_PYTHON_BINARY="python3.10"
-        EOF
-        fi
-
-        # Allow building as root on Linux to avoid all sorts of container
-        # permission issues with the GitHub Actions.
-        if [ "$RUNNER_OS" == "Linux" ]; then
-          cat <<EOF >> .config
-        CT_EXPERIMENTAL=y
-        CT_ALLOW_BUILD_AS_ROOT=y
-        CT_ALLOW_BUILD_AS_ROOT_SURE=y
-        EOF
-        fi
-
-        # Configure restartable build for the previous build
-        cat <<EOF >> .config
-        CT_DEBUG_CT=y
-        CT_DEBUG_CT_SAVE_STEPS=y
-        CT_DEBUG_CT_SAVE_STEPS_GZIP=y
-        EOF
-
-        # Merge configurations
-        ${CT_NG} savedefconfig DEFCONFIG=build.config
-        ${CT_NG} distclean
-        ${CT_NG} defconfig DEFCONFIG=build.config
-
-        # Build toolchain
-        ${CT_NG} build STOP=cc_for_host
-
-        # Clean up gcc build directory to reduce disk usage
-        pwd || true
-        df -h || true
-        tree -aL 2 || true
-        ls ${WORKSPACE}/build/.build/HOST-${CT_HOST}/${{ matrix.target }} || true
-
-        # rm -rf ${GITHUB_WORKSPACE}/binutils || true
-        rm -rf ${GITHUB_WORKSPACE}/gcc || true
-        # rm -rf ${WORKSPACE}/build/.build/tarballs/gcc-* || true
-        # rm -rf ${WORKSPACE}/build/.build/HOST-${CT_HOST}/${{ matrix.target }}/src/binutils || true
-        rm -rf ${WORKSPACE}/build/.build/HOST-${CT_HOST}/${{ matrix.target }}/src/gcc || true
-        rm -rf ${WORKSPACE}/build/.build/HOST-${CT_HOST}/${{ matrix.target }}/build/build-cc-gcc-core || true
-        rm -rf ${WORKSPACE}/build/.build/HOST-${CT_HOST}/${{ matrix.target }}/build/build-cc-gcc-final || true
-        df -h || true
-
-        mv ${WORKSPACE}/build/build.log ${WORKSPACE}/build/build.log.1 || true
-        ${CT_NG} build RESTART=libc_post_cc
-        popd
-
-        # Resolve output directory path
-        if [ "${{ matrix.host.name }}" == "macos-x86_64" ]; then
-          OUTPUT_BASE="${WORKSPACE}/output"
-          OUTPUT_DIR="HOST-x86_64-apple-darwin"
-        elif [ "${{ matrix.host.name }}" == "windows-x86_64" ]; then
-          OUTPUT_BASE="${WORKSPACE}/output"
-          OUTPUT_DIR="HOST-x86_64-w64-mingw32"
-        else
-          OUTPUT_BASE="${WORKSPACE}"
-          OUTPUT_DIR="output"
-        fi
-
-        # Grant write permission for owner
-        chmod -R u+w ${OUTPUT_BASE}/${OUTPUT_DIR}
-
-        # Remove unneeded files from output directory
-        pushd ${OUTPUT_BASE}/${OUTPUT_DIR}/${{ matrix.target }}
-        rm -rf newlib-nano
-        rm -f build.log.bz2
-        popd
-
-        # Rename Canadian cross-compiled toolchain output directory to
-        # "output" for consistency
-        if [ "${OUTPUT_DIR}" != "output" ]; then
-          mv ${OUTPUT_BASE}/${OUTPUT_DIR} ${OUTPUT_BASE}/output
-          OUTPUT_DIR="output"
-        fi
-
-        # Create archive
-        ARCHIVE_NAME=toolchain_${{ matrix.host.name }}_${{ matrix.target }}
-        ARCHIVE_FILE=${ARCHIVE_NAME}.${{ matrix.host.archive }}
-
-        if [ "${{ matrix.host.archive }}" == "tar.xz" ]; then
-          XZ_OPT="-T0" \
-          ${TAR} -Jcvf ${ARCHIVE_FILE} \
-                 --owner=0 --group=0 -C ${OUTPUT_BASE}/${OUTPUT_DIR} ${{ matrix.target }}
-        elif [ "${{ matrix.host.archive }}" == "7z" ]; then
-          pushd ${OUTPUT_BASE}/${OUTPUT_DIR}
-          7z a -t7z -l ${GITHUB_WORKSPACE}/${ARCHIVE_FILE} ${{ matrix.target }}
+          # Bootstrap crosstool-ng
+          pushd ${GITHUB_WORKSPACE}/crosstool-ng
+          ./bootstrap
           popd
-        fi
 
-        # Compute checksum
-        md5sum ${ARCHIVE_FILE} > md5.sum
-        sha256sum ${ARCHIVE_FILE} > sha256.sum
+          # Build and install crosstool-ng
+          ${GITHUB_WORKSPACE}/crosstool-ng/configure --prefix=${WORKSPACE}/crosstool-ng
+          make
+          make install
 
-    - name: Setup debug session (post)
-      if: always() && needs.setup.outputs.debug == 'toolchain-post'
-      uses: mxschmitt/action-tmate@v3
-      with:
-        limit-access-to-actor: true
+          # Clean up build directory to reduce disk usage
+          popd
+          rm -rf ${WORKSPACE}/crosstool-ng-build
 
-    - name: Sync downloaded source files to cache
-      if: always() && needs.setup.outputs.aws == 'aws'
-      continue-on-error: true
-      run: |
-        pushd ${WORKSPACE}/sources
-        aws s3 sync . ${SRC_CACHE_URI}
-        popd
+          # Export crosstool-ng executable path
+          echo "CT_NG=${WORKSPACE}/crosstool-ng/bin/ct-ng" >> $GITHUB_ENV
 
-    - name: Prepare toolchain build log
-      if: always()
-      run: |
-        # Move build log file out of workspace
-        mv ${WORKSPACE}/build/build.log ${{ matrix.target }}.log || true
-        mv ${WORKSPACE}/build/build.log.1 ${{ matrix.target }}.build.log.1 || true
-        mv ${WORKSPACE}/build/build.config ${{ matrix.target }}.build.config || true
-        mv ${WORKSPACE}/build/.config ${{ matrix.target }}.config || true
+      - name: Test crosstool-ng
+        run: |
+          ${CT_NG} version
 
-    - name: Upload toolchain build log
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: log_${{ matrix.host.name }}_${{ matrix.target }}
-        path:  |
-          ${{ matrix.target }}.log
-          ${{ matrix.target }}.build.log.1
-          ${{ matrix.target }}.build.config
-          ${{ matrix.target }}.config
+      - name: Download version information
+        uses: actions/download-artifact@v4
+        with:
+          name: version
+          path: ${{ runner.temp }}
 
-    - name: Upload toolchain build artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: toolchain_${{ matrix.host.name }}_${{ matrix.target }}
-        path: |
-          toolchain_${{ matrix.host.name }}_${{ matrix.target }}.${{ matrix.host.archive }}
-          md5.sum
-          sha256.sum
+      - name: Configure AWS Credentials
+        if: always() && needs.setup.outputs.aws == 'aws'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_CACHE_SDK_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_CACHE_SDK_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Download cached source files
+        if: always() && needs.setup.outputs.aws == 'aws'
+        continue-on-error: true
+        run: |
+          SRC_CACHE_BASE="s3://cache-sdk/crosstool-ng-sources"
+          SRC_CACHE_DIR="${{ matrix.host.name }}/${{ matrix.target }}"
+          SRC_CACHE_URI="${SRC_CACHE_BASE}/${SRC_CACHE_DIR}"
+
+          # Download cached source files
+          mkdir -p ${WORKSPACE}/sources
+          pushd ${WORKSPACE}/sources
+          aws s3 sync ${SRC_CACHE_URI} .
+          popd
+
+          # Export environment variables
+          echo "SRC_CACHE_URI=${SRC_CACHE_URI}" >> $GITHUB_ENV
+
+      - name: Setup debug session (pre)
+        if: always() && needs.setup.outputs.debug == 'toolchain-pre'
+        uses: mxschmitt/action-tmate@v3
+        with:
+          limit-access-to-actor: true
+
+      - name: Build toolchain
+        run: |
+          # Set output path
+          export CT_PREFIX="${WORKSPACE}/output"
+
+          # Create build directory
+          mkdir -p ${WORKSPACE}/build
+          pushd ${WORKSPACE}/build
+
+          # Load default target configurations
+          cat ${GITHUB_WORKSPACE}/configs/common.config \
+              ${GITHUB_WORKSPACE}/configs/${{ matrix.target }}.config \
+              > .config
+
+          # Set version information
+          cat <<EOF >> .config
+          CT_SHOW_CT_VERSION=n
+          CT_TOOLCHAIN_PKGVERSION="${{ env.BUNDLE_NAME }} $(<${RUNNER_TEMP}/version)"
+          CT_TOOLCHAIN_BUGURL="${{ env.BUG_URL }}"
+          EOF
+
+          # Set environment configuration
+          cat <<EOF >> .config
+          CT_LOCAL_TARBALLS_DIR="${WORKSPACE}/sources"
+          CT_OVERLAY_LOCATION="${GITHUB_WORKSPACE}/overlays"
+          EOF
+
+          # Set logging configurations
+          cat <<EOF >> .config
+          CT_LOG_PROGRESS_BAR=n
+          CT_LOG_EXTRA=y
+          CT_LOG_LEVEL_MAX="EXTRA"
+          EOF
+
+          # Set Canadian cross compilation configurations
+          if [ "${{ matrix.host.name }}" == "macos-x86_64" ]; then
+            # Building for macos-x86_64 on macos-aarch64
+            cat <<EOF >> .config
+          CT_CANADIAN=y
+          CT_HOST="x86_64-apple-darwin"
+          EOF
+          elif [ "${{ matrix.host.name }}" == "windows-x86_64" ]; then
+            # Building for windows-x86_64 on linux-x86_64
+            cat <<EOF >> .config
+          CT_CANADIAN=y
+          CT_HOST="x86_64-w64-mingw32"
+          EOF
+          fi
+
+          # Configure GDB Python scripting support
+          cat <<EOF >> .config
+          CT_GDB_CROSS_PYTHON=y
+          CT_GDB_CROSS_PYTHON_VARIANT=y
+          EOF
+
+          if [ "${{ matrix.host.name }}" == "macos-x86_64" ]; then
+            # Use Python 3.10.15
+            export LIBPYTHON_KIT_ROOT=${GITHUB_WORKSPACE}/crosskit/crosskit-x86_64-darwin-libpython/python-3.10.15
+            # Set Python configuration resolver for GDB
+            cat <<EOF >> .config
+          CT_GDB_CROSS_PYTHON_BINARY="${LIBPYTHON_KIT_ROOT}/bin/python"
+          EOF
+          elif [ "${{ matrix.host.name }}" == "windows-x86_64" ]; then
+            # Use Python 3.10.11
+            export LIBPYTHON_KIT_ROOT=${GITHUB_WORKSPACE}/crosskit/crosskit-mingw-w64-libpython/python-3.10.11
+            # Set Python configuration resolver for GDB
+            cat <<EOF >> .config
+          CT_GDB_CROSS_PYTHON_BINARY="${LIBPYTHON_KIT_ROOT}/bin/python"
+          EOF
+          else
+            # Use Python 3.10 for non-Canadian Linux and macOS builds
+            cat <<EOF >> .config
+          CT_GDB_CROSS_PYTHON_BINARY="python3.10"
+          EOF
+          fi
+
+          # Allow building as root on Linux to avoid all sorts of container
+          # permission issues with the GitHub Actions.
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            cat <<EOF >> .config
+          CT_EXPERIMENTAL=y
+          CT_ALLOW_BUILD_AS_ROOT=y
+          CT_ALLOW_BUILD_AS_ROOT_SURE=y
+          EOF
+          fi
+
+          # Configure restartable build for the previous build
+          cat <<EOF >> .config
+          CT_DEBUG_CT=y
+          CT_DEBUG_CT_SAVE_STEPS=y
+          CT_DEBUG_CT_SAVE_STEPS_GZIP=y
+          EOF
+
+          # Merge configurations
+          ${CT_NG} savedefconfig DEFCONFIG=build.config
+          ${CT_NG} distclean
+          ${CT_NG} defconfig DEFCONFIG=build.config
+
+          # Build toolchain
+          ${CT_NG} build STOP=cc_for_host
+
+          # Clean up gcc build directory to reduce disk usage
+          pwd || true
+          df -h || true
+          tree -aL 2 || true
+          ls ${WORKSPACE}/build/.build/HOST-${CT_HOST}/${{ matrix.target }} || true
+
+          # rm -rf ${GITHUB_WORKSPACE}/binutils || true
+          rm -rf ${GITHUB_WORKSPACE}/gcc || true
+          # rm -rf ${WORKSPACE}/build/.build/tarballs/gcc-* || true
+          # rm -rf ${WORKSPACE}/build/.build/HOST-${CT_HOST}/${{ matrix.target }}/src/binutils || true
+          rm -rf ${WORKSPACE}/build/.build/HOST-${CT_HOST}/${{ matrix.target }}/src/gcc || true
+          rm -rf ${WORKSPACE}/build/.build/HOST-${CT_HOST}/${{ matrix.target }}/build/build-cc-gcc-core || true
+          rm -rf ${WORKSPACE}/build/.build/HOST-${CT_HOST}/${{ matrix.target }}/build/build-cc-gcc-final || true
+          df -h || true
+
+          mv ${WORKSPACE}/build/build.log ${WORKSPACE}/build/build.log.1 || true
+          ${CT_NG} build RESTART=libc_post_cc
+          popd
+
+          # Resolve output directory path
+          if [ "${{ matrix.host.name }}" == "macos-x86_64" ]; then
+            OUTPUT_BASE="${WORKSPACE}/output"
+            OUTPUT_DIR="HOST-x86_64-apple-darwin"
+          elif [ "${{ matrix.host.name }}" == "windows-x86_64" ]; then
+            OUTPUT_BASE="${WORKSPACE}/output"
+            OUTPUT_DIR="HOST-x86_64-w64-mingw32"
+          else
+            OUTPUT_BASE="${WORKSPACE}"
+            OUTPUT_DIR="output"
+          fi
+
+          # Grant write permission for owner
+          chmod -R u+w ${OUTPUT_BASE}/${OUTPUT_DIR}
+
+          # Remove unneeded files from output directory
+          pushd ${OUTPUT_BASE}/${OUTPUT_DIR}/${{ matrix.target }}
+          rm -rf newlib-nano
+          rm -f build.log.bz2
+          popd
+
+          # Rename Canadian cross-compiled toolchain output directory to
+          # "output" for consistency
+          if [ "${OUTPUT_DIR}" != "output" ]; then
+            mv ${OUTPUT_BASE}/${OUTPUT_DIR} ${OUTPUT_BASE}/output
+            OUTPUT_DIR="output"
+          fi
+
+          # Create archive
+          ARCHIVE_NAME=toolchain_${{ matrix.host.name }}_${{ matrix.target }}
+          ARCHIVE_FILE=${ARCHIVE_NAME}.${{ matrix.host.archive }}
+
+          if [ "${{ matrix.host.archive }}" == "tar.xz" ]; then
+            XZ_OPT="-T0" \
+            ${TAR} -Jcvf ${ARCHIVE_FILE} \
+                   --owner=0 --group=0 -C ${OUTPUT_BASE}/${OUTPUT_DIR} ${{ matrix.target }}
+          elif [ "${{ matrix.host.archive }}" == "7z" ]; then
+            pushd ${OUTPUT_BASE}/${OUTPUT_DIR}
+            7z a -t7z -l ${GITHUB_WORKSPACE}/${ARCHIVE_FILE} ${{ matrix.target }}
+            popd
+          fi
+
+          # Compute checksum
+          md5sum ${ARCHIVE_FILE} > md5.sum
+          sha256sum ${ARCHIVE_FILE} > sha256.sum
+
+      - name: Setup debug session (post)
+        if: always() && needs.setup.outputs.debug == 'toolchain-post'
+        uses: mxschmitt/action-tmate@v3
+        with:
+          limit-access-to-actor: true
+
+      - name: Sync downloaded source files to cache
+        if: always() && needs.setup.outputs.aws == 'aws'
+        continue-on-error: true
+        run: |
+          pushd ${WORKSPACE}/sources
+          aws s3 sync . ${SRC_CACHE_URI}
+          popd
+
+      - name: Prepare toolchain build log
+        if: always()
+        run: |
+          # Move build log file out of workspace
+          mv ${WORKSPACE}/build/build.log ${{ matrix.target }}.log || true
+          mv ${WORKSPACE}/build/build.log.1 ${{ matrix.target }}.build.log.1 || true
+          mv ${WORKSPACE}/build/build.config ${{ matrix.target }}.build.config || true
+          mv ${WORKSPACE}/build/.config ${{ matrix.target }}.config || true
+
+      - name: Upload toolchain build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: log_${{ matrix.host.name }}_${{ matrix.target }}
+          path: |
+            ${{ matrix.target }}.log
+            ${{ matrix.target }}.build.log.1
+            ${{ matrix.target }}.build.config
+            ${{ matrix.target }}.config
+
+      - name: Upload toolchain build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: toolchain_${{ matrix.host.name }}_${{ matrix.target }}
+          path: |
+            toolchain_${{ matrix.host.name }}_${{ matrix.target }}.${{ matrix.host.archive }}
+            md5.sum
+            sha256.sum
 
   # Build host tools
   build-hosttools:
@@ -937,136 +965,136 @@ jobs:
         host: ${{ fromJSON(needs.setup.outputs.hosts) }}
 
     steps:
-    - name: Apply container owner mismatch workaround
-      run: |
-        # FIXME: The owner UID of the GITHUB_WORKSPACE directory may not
-        #        match the container user UID because of the way GitHub
-        #        Actions runner is implemented. Remove this workaround when
-        #        GitHub comes up with a fundamental fix for this problem.
-        git config --global --add safe.directory '*'
+      - name: Apply container owner mismatch workaround
+        run: |
+          # FIXME: The owner UID of the GITHUB_WORKSPACE directory may not
+          #        match the container user UID because of the way GitHub
+          #        Actions runner is implemented. Remove this workaround when
+          #        GitHub comes up with a fundamental fix for this problem.
+          git config --global --add safe.directory '*'
 
-    - name: Set up build environment (Linux)
-      if: ${{ runner.os == 'Linux' }}
-      run: |
-        # Clean up working directories
-        shopt -s dotglob
-        sudo rm -rf ${GITHUB_WORKSPACE}/*
-        shopt -u dotglob
+      - name: Set up build environment (Linux)
+        if: ${{ runner.os == 'Linux' }}
+        run: |
+          # Clean up working directories
+          shopt -s dotglob
+          sudo rm -rf ${GITHUB_WORKSPACE}/*
+          shopt -u dotglob
 
-        # Set environment variables
-        echo "TAR=tar" >> $GITHUB_ENV
+          # Set environment variables
+          echo "TAR=tar" >> $GITHUB_ENV
 
-    - name: Set up build environment (macOS)
-      if: ${{ runner.os == 'macOS' }}
-      run: |
-        # Clean up working directories
-        shopt -s dotglob
-        rm -rf ${GITHUB_WORKSPACE}/*
-        shopt -u dotglob
+      - name: Set up build environment (macOS)
+        if: ${{ runner.os == 'macOS' }}
+        run: |
+          # Clean up working directories
+          shopt -s dotglob
+          rm -rf ${GITHUB_WORKSPACE}/*
+          shopt -u dotglob
 
-        # Set environment variables
-        echo "TAR=gtar" >> $GITHUB_ENV
+          # Set environment variables
+          echo "TAR=gtar" >> $GITHUB_ENV
 
-    - name: Check out source code
-      if: ${{ github.event_name != 'pull_request_target' }}
-      uses: actions/checkout@v4
-      with:
-        submodules: recursive
-        persist-credentials: false
+      - name: Check out source code
+        if: ${{ github.event_name != 'pull_request_target' }}
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          persist-credentials: false
 
-    - name: Check out source code (pull request)
-      if: ${{ github.event_name == 'pull_request_target' }}
-      uses: actions/checkout@v4
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
-        submodules: recursive
-        persist-credentials: false
+      - name: Check out source code (pull request)
+        if: ${{ github.event_name == 'pull_request_target' }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          submodules: recursive
+          persist-credentials: false
 
-    - name: Configure AWS Credentials
-      if: always() && needs.setup.outputs.aws == 'aws'
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        aws-access-key-id: ${{ secrets.AWS_CACHE_SDK_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_CACHE_SDK_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
+      - name: Configure AWS Credentials
+        if: always() && needs.setup.outputs.aws == 'aws'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_CACHE_SDK_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_CACHE_SDK_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
 
-    - name: Download cached source files (Linux)
-      if: startsWith(matrix.host.name, 'linux-') && needs.setup.outputs.aws == 'aws'
-      continue-on-error: true
-      run: |
-        SRC_CACHE_BASE="s3://cache-sdk/poky-sources"
-        SRC_CACHE_DIR="${{ matrix.host.name }}"
-        SRC_CACHE_URI="${SRC_CACHE_BASE}/${SRC_CACHE_DIR}"
-        POKY_DOWNLOADS="${RUNNER_TEMP}/poky-downloads"
+      - name: Download cached source files (Linux)
+        if: startsWith(matrix.host.name, 'linux-') && needs.setup.outputs.aws == 'aws'
+        continue-on-error: true
+        run: |
+          SRC_CACHE_BASE="s3://cache-sdk/poky-sources"
+          SRC_CACHE_DIR="${{ matrix.host.name }}"
+          SRC_CACHE_URI="${SRC_CACHE_BASE}/${SRC_CACHE_DIR}"
+          POKY_DOWNLOADS="${RUNNER_TEMP}/poky-downloads"
 
-        # Download cached source files
-        mkdir -p ${POKY_DOWNLOADS}
-        pushd ${POKY_DOWNLOADS}
-        aws s3 sync ${SRC_CACHE_URI} .
-        popd
+          # Download cached source files
+          mkdir -p ${POKY_DOWNLOADS}
+          pushd ${POKY_DOWNLOADS}
+          aws s3 sync ${SRC_CACHE_URI} .
+          popd
 
-        # Export environment variables
-        echo "SRC_CACHE_URI=${SRC_CACHE_URI}" >> $GITHUB_ENV
-        echo "POKY_DOWNLOADS=${POKY_DOWNLOADS}" >> $GITHUB_ENV
+          # Export environment variables
+          echo "SRC_CACHE_URI=${SRC_CACHE_URI}" >> $GITHUB_ENV
+          echo "POKY_DOWNLOADS=${POKY_DOWNLOADS}" >> $GITHUB_ENV
 
-    - name: Build Linux host tools
-      if: startsWith(matrix.host.name, 'linux-')
-      run: |
-        POKY_BASE=${GITHUB_WORKSPACE}/meta-zephyr-sdk
-        export META_DOWNLOADS="${POKY_DOWNLOADS}"
-        sudo apt-get update
-        sudo apt-get install -y lz4 zstd
+      - name: Build Linux host tools
+        if: startsWith(matrix.host.name, 'linux-')
+        run: |
+          POKY_BASE=${GITHUB_WORKSPACE}/meta-zephyr-sdk
+          export META_DOWNLOADS="${POKY_DOWNLOADS}"
+          sudo apt-get update
+          sudo apt-get install -y lz4 zstd
 
-        # Check out Poky
-        ${POKY_BASE}/scripts/meta-zephyr-sdk-clone.sh
+          # Check out Poky
+          ${POKY_BASE}/scripts/meta-zephyr-sdk-clone.sh
 
-        # Patch Poky sanity configuration to allow building as root
-        sed -i '/^INHERIT/ s/./#&/' poky/meta/conf/sanity.conf
+          # Patch Poky sanity configuration to allow building as root
+          sed -i '/^INHERIT/ s/./#&/' poky/meta/conf/sanity.conf
 
-        # Build meta-zephyr-sdk
-        ${POKY_BASE}/scripts/meta-zephyr-sdk-build.sh tools
+          # Build meta-zephyr-sdk
+          ${POKY_BASE}/scripts/meta-zephyr-sdk-build.sh tools
 
-        # Prepare artifact for upload
-        ARTIFACT_ROOT="${POKY_BASE}/scripts/toolchains"
-        ARTIFACT=(${ARTIFACT_ROOT}/*hosttools*.sh)
-        ARTIFACT=${ARTIFACT[0]}
-        ARTIFACT=$(basename ${ARTIFACT})
-        ARCHIVE_NAME=hosttools_${{ matrix.host.name }}
-        ARCHIVE_FILE=hosttools_${{ matrix.host.name }}.tar.xz
+          # Prepare artifact for upload
+          ARTIFACT_ROOT="${POKY_BASE}/scripts/toolchains"
+          ARTIFACT=(${ARTIFACT_ROOT}/*hosttools*.sh)
+          ARTIFACT=${ARTIFACT[0]}
+          ARTIFACT=$(basename ${ARTIFACT})
+          ARCHIVE_NAME=hosttools_${{ matrix.host.name }}
+          ARCHIVE_FILE=hosttools_${{ matrix.host.name }}.tar.xz
 
-        XZ_OPT="-T0" \
-        ${TAR} -Jcvf ${ARCHIVE_FILE} --owner=0 --group=0 \
-               -C ${ARTIFACT_ROOT} ${ARTIFACT}
+          XZ_OPT="-T0" \
+          ${TAR} -Jcvf ${ARCHIVE_FILE} --owner=0 --group=0 \
+                 -C ${ARTIFACT_ROOT} ${ARTIFACT}
 
-        # Compute checksum
-        md5sum ${ARCHIVE_FILE} > md5.sum
-        sha256sum ${ARCHIVE_FILE} > sha256.sum
+          # Compute checksum
+          md5sum ${ARCHIVE_FILE} > md5.sum
+          sha256sum ${ARCHIVE_FILE} > sha256.sum
 
-    - name: Setup debug session
-      if: always() && needs.setup.outputs.debug == 'hosttools'
-      uses: mxschmitt/action-tmate@v3
-      with:
-        limit-access-to-actor: true
+      - name: Setup debug session
+        if: always() && needs.setup.outputs.debug == 'hosttools'
+        uses: mxschmitt/action-tmate@v3
+        with:
+          limit-access-to-actor: true
 
-    - name: Sync downloaded source files to cache (Linux)
-      if: startsWith(matrix.host.name, 'linux-') && needs.setup.outputs.aws == 'aws'
-      continue-on-error: true
-      run: |
-        pushd ${POKY_DOWNLOADS}
-        rm -rf git2
-        rm -rf svn
-        aws s3 sync . ${SRC_CACHE_URI}
-        popd
+      - name: Sync downloaded source files to cache (Linux)
+        if: startsWith(matrix.host.name, 'linux-') && needs.setup.outputs.aws == 'aws'
+        continue-on-error: true
+        run: |
+          pushd ${POKY_DOWNLOADS}
+          rm -rf git2
+          rm -rf svn
+          aws s3 sync . ${SRC_CACHE_URI}
+          popd
 
-    - name: Upload toolchain build artifact
-      if: startsWith(matrix.host.name, 'linux-') # FIXME: Do for all
-      uses: actions/upload-artifact@v4
-      with:
-        name: hosttools_${{ matrix.host.name }}
-        path: |
-          hosttools_${{ matrix.host.name }}.${{ matrix.host.archive }}
-          md5.sum
-          sha256.sum
+      - name: Upload toolchain build artifact
+        if: startsWith(matrix.host.name, 'linux-') # FIXME: Do for all
+        uses: actions/upload-artifact@v4
+        with:
+          name: hosttools_${{ matrix.host.name }}
+          path: |
+            hosttools_${{ matrix.host.name }}.${{ matrix.host.archive }}
+            md5.sum
+            sha256.sum
 
     # TODO: Add host tool build process for macOS hosts.
     # TODO: Add host tool build process for Windows hosts.
@@ -1088,82 +1116,82 @@ jobs:
         host: ${{ fromJSON(needs.setup.outputs.hosts) }}
 
     steps:
-    - name: Set up build environment (Linux)
-      if: ${{ runner.os == 'Linux' }}
-      run: |
-        # Clean up working directories
-        shopt -s dotglob
-        sudo rm -rf ${GITHUB_WORKSPACE}/*
-        shopt -u dotglob
+      - name: Set up build environment (Linux)
+        if: ${{ runner.os == 'Linux' }}
+        run: |
+          # Clean up working directories
+          shopt -s dotglob
+          sudo rm -rf ${GITHUB_WORKSPACE}/*
+          shopt -u dotglob
 
-        # Install common dependencies
-        sudo apt-get update
-        sudo apt-get install -y p7zip
+          # Install common dependencies
+          sudo apt-get update
+          sudo apt-get install -y p7zip
 
-        # Set environment variables
-        echo "TAR=tar" >> $GITHUB_ENV
+          # Set environment variables
+          echo "TAR=tar" >> $GITHUB_ENV
 
-    - name: Set up build environment (macOS)
-      if: ${{ runner.os == 'macOS' }}
-      run: |
-        # Clean up working directories
-        shopt -s dotglob
-        rm -rf ${GITHUB_WORKSPACE}/*
-        shopt -u dotglob
+      - name: Set up build environment (macOS)
+        if: ${{ runner.os == 'macOS' }}
+        run: |
+          # Clean up working directories
+          shopt -s dotglob
+          rm -rf ${GITHUB_WORKSPACE}/*
+          shopt -u dotglob
 
-        # Install required dependencies if running inside a GitHub-hosted runner
-        # (self-hosted runners are expected to provide all required dependencies)
-        if [[ "${{ matrix.host.runner }}" =~ ^macos.* ]]; then
-          brew install gnu-tar
-        fi
+          # Install required dependencies if running inside a GitHub-hosted runner
+          # (self-hosted runners are expected to provide all required dependencies)
+          if [[ "${{ matrix.host.runner }}" =~ ^macos.* ]]; then
+            brew install gnu-tar
+          fi
 
-        # Set environment variables
-        echo "TAR=gtar" >> $GITHUB_ENV
+          # Set environment variables
+          echo "TAR=gtar" >> $GITHUB_ENV
 
-    - name: Check out source code
-      if: ${{ github.event_name != 'pull_request_target' }}
-      uses: actions/checkout@v4
-      with:
-        persist-credentials: false
+      - name: Check out source code
+        if: ${{ github.event_name != 'pull_request_target' }}
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
-    - name: Check out source code (pull request)
-      if: ${{ github.event_name == 'pull_request_target' }}
-      uses: actions/checkout@v4
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
-        persist-credentials: false
+      - name: Check out source code (pull request)
+        if: ${{ github.event_name == 'pull_request_target' }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
 
-    - name: Build CMake package
-      run: |
-        # Create CMake package archive
-        ARCHIVE_NAME=cmake_${{ matrix.host.name }}
-        ARCHIVE_FILE=${ARCHIVE_NAME}.${{ matrix.host.archive }}
+      - name: Build CMake package
+        run: |
+          # Create CMake package archive
+          ARCHIVE_NAME=cmake_${{ matrix.host.name }}
+          ARCHIVE_FILE=${ARCHIVE_NAME}.${{ matrix.host.archive }}
 
-        if [ "${{ matrix.host.archive }}" == "tar.xz" ]; then
-          XZ_OPT="-T0" \
-          ${TAR} -Jcvf ${ARCHIVE_FILE} --owner=0 --group=0 \
-                 -C . cmake
-        elif [ "${{ matrix.host.archive }}" == "7z" ]; then
-          7z a -t7z -l ${ARCHIVE_FILE} cmake
-        fi
+          if [ "${{ matrix.host.archive }}" == "tar.xz" ]; then
+            XZ_OPT="-T0" \
+            ${TAR} -Jcvf ${ARCHIVE_FILE} --owner=0 --group=0 \
+                   -C . cmake
+          elif [ "${{ matrix.host.archive }}" == "7z" ]; then
+            7z a -t7z -l ${ARCHIVE_FILE} cmake
+          fi
 
-        # Compute checksum
-        md5sum ${ARCHIVE_FILE} > md5.sum
-        sha256sum ${ARCHIVE_FILE} > sha256.sum
+          # Compute checksum
+          md5sum ${ARCHIVE_FILE} > md5.sum
+          sha256sum ${ARCHIVE_FILE} > sha256.sum
 
-    - name: Upload CMake package build artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: cmake_${{ matrix.host.name }}
-        path: |
-          cmake_${{ matrix.host.name }}.${{ matrix.host.archive }}
-          md5.sum
-          sha256.sum
+      - name: Upload CMake package build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cmake_${{ matrix.host.name }}
+          path: |
+            cmake_${{ matrix.host.name }}.${{ matrix.host.archive }}
+            md5.sum
+            sha256.sum
 
   # Build distribution bundle
   build-dist-bundle:
     name: Distribution Bundle (${{ matrix.host.name }})
-    needs: [ setup, build-toolchain, build-hosttools, build-cmake-pkg ]
+    needs: [setup, build-toolchain, build-hosttools, build-cmake-pkg]
     runs-on: ${{ matrix.host.runner }}
     container: ${{ matrix.host.container }}
 
@@ -1177,187 +1205,187 @@ jobs:
         host: ${{ fromJSON(needs.setup.outputs.hosts) }}
 
     steps:
-    - name: Set up build environment (Linux)
-      if: ${{ runner.os == 'Linux' }}
-      run: |
-        # Clean up working directories
-        shopt -s dotglob
-        sudo rm -rf ${GITHUB_WORKSPACE}/*
-        shopt -u dotglob
+      - name: Set up build environment (Linux)
+        if: ${{ runner.os == 'Linux' }}
+        run: |
+          # Clean up working directories
+          shopt -s dotglob
+          sudo rm -rf ${GITHUB_WORKSPACE}/*
+          shopt -u dotglob
 
-        # Install common dependencies
-        sudo apt-get update
-        sudo apt-get install -y jq p7zip
+          # Install common dependencies
+          sudo apt-get update
+          sudo apt-get install -y jq p7zip
 
-        # Set environment variables
-        echo "TAR=tar" >> $GITHUB_ENV
+          # Set environment variables
+          echo "TAR=tar" >> $GITHUB_ENV
 
-    - name: Set up build environment (macOS)
-      if: ${{ runner.os == 'macOS' }}
-      run: |
-        # Clean up working directories
-        shopt -s dotglob
-        rm -rf ${GITHUB_WORKSPACE}/*
-        shopt -u dotglob
+      - name: Set up build environment (macOS)
+        if: ${{ runner.os == 'macOS' }}
+        run: |
+          # Clean up working directories
+          shopt -s dotglob
+          rm -rf ${GITHUB_WORKSPACE}/*
+          shopt -u dotglob
 
-        # Install required dependencies if running inside a GitHub-hosted runner
-        # (self-hosted runners are expected to provide all required dependencies)
-        if [[ "${{ matrix.host.runner }}" =~ ^macos.* ]]; then
-          brew install coreutils gnu-tar jq
-        fi
+          # Install required dependencies if running inside a GitHub-hosted runner
+          # (self-hosted runners are expected to provide all required dependencies)
+          if [[ "${{ matrix.host.runner }}" =~ ^macos.* ]]; then
+            brew install coreutils gnu-tar jq
+          fi
 
-        # Set environment variables
-        echo "TAR=gtar" >> $GITHUB_ENV
+          # Set environment variables
+          echo "TAR=gtar" >> $GITHUB_ENV
 
-    - name: Check out source code
-      if: ${{ github.event_name != 'pull_request_target' }}
-      uses: actions/checkout@v4
-      with:
-        path: repository
-        persist-credentials: false
+      - name: Check out source code
+        if: ${{ github.event_name != 'pull_request_target' }}
+        uses: actions/checkout@v4
+        with:
+          path: repository
+          persist-credentials: false
 
-    - name: Check out source code (pull request)
-      if: ${{ github.event_name == 'pull_request_target' }}
-      uses: actions/checkout@v4
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
-        path: repository
-        persist-credentials: false
+      - name: Check out source code (pull request)
+        if: ${{ github.event_name == 'pull_request_target' }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: repository
+          persist-credentials: false
 
-    - name: Download Version
-      uses: actions/download-artifact@v4
-      with:
-        path: artifacts
-        pattern: version
+      - name: Download Version
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          pattern: version
 
-    - name: Download artifacts
-      uses: actions/download-artifact@v4
-      with:
-        path: artifacts
-        pattern: "*_${{ matrix.host.name }}*"
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          pattern: "*_${{ matrix.host.name }}*"
 
-    - name: Create distribution bundle
-      run: |
-        # Set environment variables
-        HOST=${{ matrix.host.name }}
-        EXT=${{ matrix.host.archive }}
-        REPO_ROOT=${GITHUB_WORKSPACE}/repository
-        ARTIFACT_ROOT=${GITHUB_WORKSPACE}/artifacts
-        VERSION=$(<${ARTIFACT_ROOT}/version/version)
-        ARCHIVE_DIR=${{ env.BUNDLE_PREFIX }}-${VERSION}
-        ARCHIVE_NAME=${{ env.BUNDLE_PREFIX }}-${VERSION}_${HOST}
+      - name: Create distribution bundle
+        run: |
+          # Set environment variables
+          HOST=${{ matrix.host.name }}
+          EXT=${{ matrix.host.archive }}
+          REPO_ROOT=${GITHUB_WORKSPACE}/repository
+          ARTIFACT_ROOT=${GITHUB_WORKSPACE}/artifacts
+          VERSION=$(<${ARTIFACT_ROOT}/version/version)
+          ARCHIVE_DIR=${{ env.BUNDLE_PREFIX }}-${VERSION}
+          ARCHIVE_NAME=${{ env.BUNDLE_PREFIX }}-${VERSION}_${HOST}
 
-        echo "BUNDLE_ARCHIVE_NAME=${ARCHIVE_NAME}" >> $GITHUB_ENV
+          echo "BUNDLE_ARCHIVE_NAME=${ARCHIVE_NAME}" >> $GITHUB_ENV
 
-        if [ "${{ matrix.host.archive }}" == "tar.xz" ]; then
-          EXTRACT="${TAR} -Jxvf"
-        elif [ "${{ matrix.host.archive }}" == "7z" ]; then
-          EXTRACT="7z x -o."
-        fi
+          if [ "${{ matrix.host.archive }}" == "tar.xz" ]; then
+            EXTRACT="${TAR} -Jxvf"
+          elif [ "${{ matrix.host.archive }}" == "7z" ]; then
+            EXTRACT="7z x -o."
+          fi
 
-        # Create bundle directory
-        mkdir ${ARCHIVE_DIR}
-        pushd ${ARCHIVE_DIR}
+          # Create bundle directory
+          mkdir ${ARCHIVE_DIR}
+          pushd ${ARCHIVE_DIR}
 
-        # Stage version file
-        echo "${VERSION}" > sdk_version
+          # Stage version file
+          echo "${VERSION}" > sdk_version
 
-        # Stage toolchain list file
-        echo '${{ needs.setup.outputs.targets }}' | jq -cr '.[]' > sdk_toolchains
+          # Stage toolchain list file
+          echo '${{ needs.setup.outputs.targets }}' | jq -cr '.[]' > sdk_toolchains
 
-        # Stage CMake package
-        ## Verify CMake package archive checksum
-        pushd ${ARTIFACT_ROOT}/cmake_${HOST}
-        md5sum --check md5.sum
-        sha256sum --check sha256.sum
-        popd
-
-        ## Extract CMake package archive
-        ${EXTRACT} ${ARTIFACT_ROOT}/cmake_${HOST}/cmake_${HOST}.${EXT}
-
-        # Stage host tools
-        HOSTTOOLS_ARTIFACT=hosttools_${HOST}
-        if [ -d ${ARTIFACT_ROOT}/${HOSTTOOLS_ARTIFACT} ]; then
-          # Verify host tools archive checksum
-          pushd ${ARTIFACT_ROOT}/${HOSTTOOLS_ARTIFACT}
+          # Stage CMake package
+          ## Verify CMake package archive checksum
+          pushd ${ARTIFACT_ROOT}/cmake_${HOST}
           md5sum --check md5.sum
           sha256sum --check sha256.sum
           popd
 
-          # Extract host tools archive
-          ${EXTRACT} ${ARTIFACT_ROOT}/${HOSTTOOLS_ARTIFACT}/${HOSTTOOLS_ARTIFACT}.${EXT}
-        fi
+          ## Extract CMake package archive
+          ${EXTRACT} ${ARTIFACT_ROOT}/cmake_${HOST}/cmake_${HOST}.${EXT}
 
-        # Stage setup script
-        case ${{ matrix.host.name }} in
-          linux-* | macos-*)
-            cp ${REPO_ROOT}/scripts/template_setup_posix setup.sh
-            chmod +x setup.sh
-            ;;
-          windows-*)
-            cp ${REPO_ROOT}/scripts/template_setup_win setup.cmd
-            ;;
-        esac
-        popd
+          # Stage host tools
+          HOSTTOOLS_ARTIFACT=hosttools_${HOST}
+          if [ -d ${ARTIFACT_ROOT}/${HOSTTOOLS_ARTIFACT} ]; then
+            # Verify host tools archive checksum
+            pushd ${ARTIFACT_ROOT}/${HOSTTOOLS_ARTIFACT}
+            md5sum --check md5.sum
+            sha256sum --check sha256.sum
+            popd
 
-        # Create minimal (without toolchains) distribution bundle archive
-        if [ "${{ matrix.host.archive }}" == "tar.xz" ]; then
-          XZ_OPT="-T0" \
-          ${TAR} -Jcvf ${ARCHIVE_NAME}_minimal.${EXT} --owner=0 --group=0 \
-                 -C . ${ARCHIVE_DIR}
-        elif [ "${{ matrix.host.archive }}" == "7z" ]; then
-          7z a -t7z -l ${ARCHIVE_NAME}_minimal.${EXT} ${ARCHIVE_DIR}
-        fi
+            # Extract host tools archive
+            ${EXTRACT} ${ARTIFACT_ROOT}/${HOSTTOOLS_ARTIFACT}/${HOSTTOOLS_ARTIFACT}.${EXT}
+          fi
 
-        # Stage toolchains
-        pushd ${ARCHIVE_DIR}
-
-        ## Generate target list from the workflow matrix
-        TARGETS=$(echo '${{ needs.setup.outputs.targets }}' | jq -cr '.[]')
-
-        ## Extract all toolchains
-        for TARGET in ${TARGETS}; do
-          TOOLCHAIN_ARTIFACT=toolchain_${HOST}_${TARGET}
-
-          # Verify toolchain archive checksum
-          pushd ${ARTIFACT_ROOT}/${TOOLCHAIN_ARTIFACT}
-          md5sum --check md5.sum
-          sha256sum --check sha256.sum
+          # Stage setup script
+          case ${{ matrix.host.name }} in
+            linux-* | macos-*)
+              cp ${REPO_ROOT}/scripts/template_setup_posix setup.sh
+              chmod +x setup.sh
+              ;;
+            windows-*)
+              cp ${REPO_ROOT}/scripts/template_setup_win setup.cmd
+              ;;
+          esac
           popd
 
-          # Extract toolchain archive
-          ${EXTRACT} ${ARTIFACT_ROOT}/${TOOLCHAIN_ARTIFACT}/${TOOLCHAIN_ARTIFACT}.${EXT}
-        done
-        popd
+          # Create minimal (without toolchains) distribution bundle archive
+          if [ "${{ matrix.host.archive }}" == "tar.xz" ]; then
+            XZ_OPT="-T0" \
+            ${TAR} -Jcvf ${ARCHIVE_NAME}_minimal.${EXT} --owner=0 --group=0 \
+                   -C . ${ARCHIVE_DIR}
+          elif [ "${{ matrix.host.archive }}" == "7z" ]; then
+            7z a -t7z -l ${ARCHIVE_NAME}_minimal.${EXT} ${ARCHIVE_DIR}
+          fi
 
-        # Create full distribution bundle archive
-        if [ "${{ matrix.host.archive }}" == "tar.xz" ]; then
-          XZ_OPT="-T0" \
-          ${TAR} -Jcvf ${ARCHIVE_NAME}.${EXT} --owner=0 --group=0 \
-                 -C . ${ARCHIVE_DIR}
-        elif [ "${{ matrix.host.archive }}" == "7z" ]; then
-          7z a -t7z -l ${ARCHIVE_NAME}.${EXT} ${ARCHIVE_DIR}
-        fi
+          # Stage toolchains
+          pushd ${ARCHIVE_DIR}
 
-        # Compute checksum
-        md5sum ${ARCHIVE_NAME}.${EXT} ${ARCHIVE_NAME}_minimal.${EXT} > md5.sum
-        sha256sum ${ARCHIVE_NAME}.${EXT} ${ARCHIVE_NAME}_minimal.${EXT} > sha256.sum
+          ## Generate target list from the workflow matrix
+          TARGETS=$(echo '${{ needs.setup.outputs.targets }}' | jq -cr '.[]')
 
-    - name: Upload distribution bundle
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.BUNDLE_ARCHIVE_NAME }}
-        path: |
-          ${{ env.BUNDLE_ARCHIVE_NAME }}.${{ matrix.host.archive }}
-          ${{ env.BUNDLE_ARCHIVE_NAME }}_minimal.${{ matrix.host.archive }}
-          md5.sum
-          sha256.sum
+          ## Extract all toolchains
+          for TARGET in ${TARGETS}; do
+            TOOLCHAIN_ARTIFACT=toolchain_${HOST}_${TARGET}
+
+            # Verify toolchain archive checksum
+            pushd ${ARTIFACT_ROOT}/${TOOLCHAIN_ARTIFACT}
+            md5sum --check md5.sum
+            sha256sum --check sha256.sum
+            popd
+
+            # Extract toolchain archive
+            ${EXTRACT} ${ARTIFACT_ROOT}/${TOOLCHAIN_ARTIFACT}/${TOOLCHAIN_ARTIFACT}.${EXT}
+          done
+          popd
+
+          # Create full distribution bundle archive
+          if [ "${{ matrix.host.archive }}" == "tar.xz" ]; then
+            XZ_OPT="-T0" \
+            ${TAR} -Jcvf ${ARCHIVE_NAME}.${EXT} --owner=0 --group=0 \
+                   -C . ${ARCHIVE_DIR}
+          elif [ "${{ matrix.host.archive }}" == "7z" ]; then
+            7z a -t7z -l ${ARCHIVE_NAME}.${EXT} ${ARCHIVE_DIR}
+          fi
+
+          # Compute checksum
+          md5sum ${ARCHIVE_NAME}.${EXT} ${ARCHIVE_NAME}_minimal.${EXT} > md5.sum
+          sha256sum ${ARCHIVE_NAME}.${EXT} ${ARCHIVE_NAME}_minimal.${EXT} > sha256.sum
+
+      - name: Upload distribution bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.BUNDLE_ARCHIVE_NAME }}
+          path: |
+            ${{ env.BUNDLE_ARCHIVE_NAME }}.${{ matrix.host.archive }}
+            ${{ env.BUNDLE_ARCHIVE_NAME }}_minimal.${{ matrix.host.archive }}
+            md5.sum
+            sha256.sum
 
   # Test distribution bundle
   test-dist-bundle:
     if: always() && needs.setup.outputs.test == 'enable'
     name: Test (${{ matrix.testenv.name }}) Subset ${{ matrix.subset }}
-    needs: [ setup, build-dist-bundle ]
+    needs: [setup, build-dist-bundle]
     runs-on: ${{ matrix.testenv.runner }}
     container: ${{ matrix.testenv.container }}
 
@@ -1369,392 +1397,392 @@ jobs:
       fail-fast: false
       matrix:
         testenv: ${{ fromJSON(needs.setup.outputs.testenvs) }}
-        subset: [ 1, 2, 3 ]
+        subset: [1, 2, 3]
 
     env:
       SUBSET_COUNT: 3
       ZEPHYR_TOOLCHAIN_VARIANT: zephyr
 
     steps:
-    - name: Set up Python
-      if: ${{ runner.os == 'Windows' }}
-      uses: actions/setup-python@v5
-      with:
-        # Force Python 3.10 because the twister is not compatible with a Python
-        # version lower than 3.8 on Windows.
-        python-version: '3.10'
+      - name: Set up Python
+        if: ${{ runner.os == 'Windows' }}
+        uses: actions/setup-python@v5
+        with:
+          # Force Python 3.10 because the twister is not compatible with a Python
+          # version lower than 3.8 on Windows.
+          python-version: "3.10"
 
-    - name: Set up test environment (Linux)
-      if: ${{ runner.os == 'Linux' }}
-      run: |
-        # Clean up working directories
-        shopt -s dotglob
-        sudo rm -rf ${GITHUB_WORKSPACE}/*
-        shopt -u dotglob
+      - name: Set up test environment (Linux)
+        if: ${{ runner.os == 'Linux' }}
+        run: |
+          # Clean up working directories
+          shopt -s dotglob
+          sudo rm -rf ${GITHUB_WORKSPACE}/*
+          shopt -u dotglob
 
-        # Install required system packages
-        sudo apt-get update
-        sudo apt-get install -y dos2unix jq
+          # Install required system packages
+          sudo apt-get update
+          sudo apt-get install -y dos2unix jq
 
-        # Set environment variables
-        echo "TAR=tar" >> $GITHUB_ENV
-        echo "ARTIFACT_ROOT=${GITHUB_WORKSPACE}/artifacts" >> $GITHUB_ENV
+          # Set environment variables
+          echo "TAR=tar" >> $GITHUB_ENV
+          echo "ARTIFACT_ROOT=${GITHUB_WORKSPACE}/artifacts" >> $GITHUB_ENV
 
-    - name: Set up test environment (macOS)
-      if: ${{ runner.os == 'macOS' }}
-      run: |
-        # Clean up working directories
-        shopt -s dotglob
-        rm -rf ${GITHUB_WORKSPACE}/*
-        shopt -u dotglob
+      - name: Set up test environment (macOS)
+        if: ${{ runner.os == 'macOS' }}
+        run: |
+          # Clean up working directories
+          shopt -s dotglob
+          rm -rf ${GITHUB_WORKSPACE}/*
+          shopt -u dotglob
 
-        # Install required dependencies if running inside a GitHub-hosted runner
-        # (self-hosted runners are expected to provide all required dependencies)
-        if [[ "${{ matrix.host.runner }}" =~ ^macos.* ]]; then
-          brew install ccache coreutils dos2unix dtc gperf jq ninja wget
-        fi
+          # Install required dependencies if running inside a GitHub-hosted runner
+          # (self-hosted runners are expected to provide all required dependencies)
+          if [[ "${{ matrix.host.runner }}" =~ ^macos.* ]]; then
+            brew install ccache coreutils dos2unix dtc gperf jq ninja wget
+          fi
 
-        # Set environment variables
-        echo "TAR=gtar" >> $GITHUB_ENV
-        echo "ARTIFACT_ROOT=${GITHUB_WORKSPACE}/artifacts" >> $GITHUB_ENV
+          # Set environment variables
+          echo "TAR=gtar" >> $GITHUB_ENV
+          echo "ARTIFACT_ROOT=${GITHUB_WORKSPACE}/artifacts" >> $GITHUB_ENV
 
-    - name: Set up test environment (Windows)
-      if: ${{ runner.os == 'Windows' }}
-      run: |
-        # Clean up working directories
-        shopt -s dotglob
-        rm -rf ${GITHUB_WORKSPACE}/*
-        shopt -u dotglob
+      - name: Set up test environment (Windows)
+        if: ${{ runner.os == 'Windows' }}
+        run: |
+          # Clean up working directories
+          shopt -s dotglob
+          rm -rf ${GITHUB_WORKSPACE}/*
+          shopt -u dotglob
 
-        # Install required system packages
-        choco install ccache dtc-msys2 gperf jq ninja wget 7zip
+          # Install required system packages
+          choco install ccache dtc-msys2 gperf jq ninja wget 7zip
 
-        # Enable long paths support for Git
-        git config --system core.longpaths true
+          # Enable long paths support for Git
+          git config --system core.longpaths true
 
-        # Set environment variables
-        echo "ARTIFACT_ROOT=${GITHUB_WORKSPACE}/artifacts" >> $GITHUB_ENV
+          # Set environment variables
+          echo "ARTIFACT_ROOT=${GITHUB_WORKSPACE}/artifacts" >> $GITHUB_ENV
 
-    - name: Create Python virtual environment
-      if: ${{ runner.os != 'Linux' }}
-      run: |
-        # Create Python virtual environment
-        python3 -m venv ${GITHUB_WORKSPACE}/venv
+      - name: Create Python virtual environment
+        if: ${{ runner.os != 'Linux' }}
+        run: |
+          # Create Python virtual environment
+          python3 -m venv ${GITHUB_WORKSPACE}/venv
 
-        # Resolve activation script path
-        if [ "${{ runner.os }}" == "Windows" ]; then
-          VENV_ACTIVATE="${GITHUB_WORKSPACE}/venv/Scripts/activate"
-        else
-          VENV_ACTIVATE="${GITHUB_WORKSPACE}/venv/bin/activate"
-        fi
+          # Resolve activation script path
+          if [ "${{ runner.os }}" == "Windows" ]; then
+            VENV_ACTIVATE="${GITHUB_WORKSPACE}/venv/Scripts/activate"
+          else
+            VENV_ACTIVATE="${GITHUB_WORKSPACE}/venv/bin/activate"
+          fi
 
-        # Test Python virtual environment
-        source ${VENV_ACTIVATE}
-        which python3
-        which pip3
+          # Test Python virtual environment
+          source ${VENV_ACTIVATE}
+          which python3
+          which pip3
 
-        # Install core components
-        python3 -m pip install --upgrade pip
-        pip3 install --upgrade setuptools wheel
+          # Install core components
+          python3 -m pip install --upgrade pip
+          pip3 install --upgrade setuptools wheel
 
-        # Set environment variables
-        echo "VENV=${GITHUB_WORKSPACE}/venv" >> $GITHUB_ENV
-        echo "VENV_ACTIVATE=${VENV_ACTIVATE}" >> $GITHUB_ENV
+          # Set environment variables
+          echo "VENV=${GITHUB_WORKSPACE}/venv" >> $GITHUB_ENV
+          echo "VENV_ACTIVATE=${VENV_ACTIVATE}" >> $GITHUB_ENV
 
-    - name: Download version information
-      uses: actions/download-artifact@v4
-      with:
-        name: version
-        path: artifacts
+      - name: Download version information
+        uses: actions/download-artifact@v4
+        with:
+          name: version
+          path: artifacts
 
-    - name: Resolve distribution bundle name
-      run: |
-        # Set base environment variables
-        HOST=${{ matrix.testenv.bundle-host }}
-        EXT=${{ matrix.testenv.bundle-archive }}
-        VERSION=$(<${ARTIFACT_ROOT}/version)
+      - name: Resolve distribution bundle name
+        run: |
+          # Set base environment variables
+          HOST=${{ matrix.testenv.bundle-host }}
+          EXT=${{ matrix.testenv.bundle-archive }}
+          VERSION=$(<${ARTIFACT_ROOT}/version)
 
-        # Resolve distribution bundle name
-        BUNDLE_NAME=${{ env.BUNDLE_PREFIX }}-${VERSION}_${HOST}
-        BUNDLE_DIR=${{ env.BUNDLE_PREFIX }}-${VERSION}
-        echo "BUNDLE_NAME=${BUNDLE_NAME}" >> $GITHUB_ENV
-        echo "BUNDLE_DIR=${BUNDLE_DIR}" >> $GITHUB_ENV
+          # Resolve distribution bundle name
+          BUNDLE_NAME=${{ env.BUNDLE_PREFIX }}-${VERSION}_${HOST}
+          BUNDLE_DIR=${{ env.BUNDLE_PREFIX }}-${VERSION}
+          echo "BUNDLE_NAME=${BUNDLE_NAME}" >> $GITHUB_ENV
+          echo "BUNDLE_DIR=${BUNDLE_DIR}" >> $GITHUB_ENV
 
-    - name: Download distribution bundle
-      uses: actions/download-artifact@v4
-      with:
-        name: ${{ env.BUNDLE_NAME }}
-        path: artifacts
+      - name: Download distribution bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.BUNDLE_NAME }}
+          path: artifacts
 
-    - name: Install distribution bundle
-      run: |
-        # Create tools directory
-        mkdir -p tools
+      - name: Install distribution bundle
+        run: |
+          # Create tools directory
+          mkdir -p tools
 
-        # Verify distribution bundle archive checksum
-        pushd ${ARTIFACT_ROOT}
-        md5sum --check md5.sum
-        sha256sum --check sha256.sum
-        popd
-
-        # Extract distribution bundle archive
-        BUNDLE_FILE=${BUNDLE_NAME}.${{ matrix.testenv.bundle-archive }}
-        if [ "${{ matrix.testenv.bundle-archive }}" == "tar.xz" ]; then
-          ${TAR} -Jxvf ${ARTIFACT_ROOT}/${BUNDLE_FILE} -C tools
-        elif [ "${{ matrix.testenv.bundle-archive }}" == "7z" ]; then
-          7z x -otools ${ARTIFACT_ROOT}/${BUNDLE_FILE}
-        fi
-
-        # Run setup script
-        pushd ${GITHUB_WORKSPACE}/tools/${BUNDLE_DIR}
-
-        if [ "${{ runner.os }}" == "Windows" ]; then
-          # Shorten distribution bundle path on Windows
-          subst s: ${PWD}
-          pushd /s
-          # NOTE: Escape forward slashes because MinGW (bash)
-          # NOTE: A full path (using PWD) must be specified to ensure that the
-          #       setup script is launched from the shortened path.
-          ${PWD}/setup.cmd //t all //h //c
+          # Verify distribution bundle archive checksum
+          pushd ${ARTIFACT_ROOT}
+          md5sum --check md5.sum
+          sha256sum --check sha256.sum
           popd
-        else
-          ./setup.sh -t all -h -c
-        fi
 
-        # Clean up bundle archive to reduce disk usage
-        rm -f ${ARTIFACT_ROOT}/${BUNDLE_FILE}
+          # Extract distribution bundle archive
+          BUNDLE_FILE=${BUNDLE_NAME}.${{ matrix.testenv.bundle-archive }}
+          if [ "${{ matrix.testenv.bundle-archive }}" == "tar.xz" ]; then
+            ${TAR} -Jxvf ${ARTIFACT_ROOT}/${BUNDLE_FILE} -C tools
+          elif [ "${{ matrix.testenv.bundle-archive }}" == "7z" ]; then
+            7z x -otools ${ARTIFACT_ROOT}/${BUNDLE_FILE}
+          fi
 
-        popd
+          # Run setup script
+          pushd ${GITHUB_WORKSPACE}/tools/${BUNDLE_DIR}
 
-    - name: Install west
-      run: |
-        # Activate Python virtual environment
-        if [ ! -z "${VENV_ACTIVATE}" ]; then
-          source ${VENV_ACTIVATE}
-        fi
+          if [ "${{ runner.os }}" == "Windows" ]; then
+            # Shorten distribution bundle path on Windows
+            subst s: ${PWD}
+            pushd /s
+            # NOTE: Escape forward slashes because MinGW (bash)
+            # NOTE: A full path (using PWD) must be specified to ensure that the
+            #       setup script is launched from the shortened path.
+            ${PWD}/setup.cmd //t all //h //c
+            popd
+          else
+            ./setup.sh -t all -h -c
+          fi
 
-        # Install or upgrade west
-        pip3 install --upgrade west
+          # Clean up bundle archive to reduce disk usage
+          rm -f ${ARTIFACT_ROOT}/${BUNDLE_FILE}
 
-    - name: Set up Zephyr repository
-      run: |
-        # Activate Python virtual environment
-        if [ ! -z "${VENV_ACTIVATE}" ]; then
-          source ${VENV_ACTIVATE}
-        fi
+          popd
 
-        # Create Zephyr workspace
-        ZEPHYR_WORKSPACE=${GITHUB_WORKSPACE}/zephyrproject
-        west init ${ZEPHYR_WORKSPACE}
-        cd ${ZEPHYR_WORKSPACE}
+      - name: Install west
+        run: |
+          # Activate Python virtual environment
+          if [ ! -z "${VENV_ACTIVATE}" ]; then
+            source ${VENV_ACTIVATE}
+          fi
 
-        # Check out specified Zephyr ref
-        if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-          REF="${{ github.event.inputs.zephyr-ref }}"
-        else
-          REF="${{ env.ZEPHYR_REF }}"
-        fi
+          # Install or upgrade west
+          pip3 install --upgrade west
 
-        pushd zephyr
-        git fetch origin ${REF}
-        git checkout FETCH_HEAD
-        popd
+      - name: Set up Zephyr repository
+        run: |
+          # Activate Python virtual environment
+          if [ ! -z "${VENV_ACTIVATE}" ]; then
+            source ${VENV_ACTIVATE}
+          fi
 
-        # Clone Zephyr repositories
-        west update
-        west zephyr-export
+          # Create Zephyr workspace
+          ZEPHYR_WORKSPACE=${GITHUB_WORKSPACE}/zephyrproject
+          west init ${ZEPHYR_WORKSPACE}
+          cd ${ZEPHYR_WORKSPACE}
 
-        # Export variables
-        echo "ZEPHYR_WORKSPACE=${ZEPHYR_WORKSPACE}" >> $GITHUB_ENV
-        echo "ZEPHYR_ROOT=${ZEPHYR_WORKSPACE}/zephyr" >> $GITHUB_ENV
+          # Check out specified Zephyr ref
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            REF="${{ github.event.inputs.zephyr-ref }}"
+          else
+            REF="${{ env.ZEPHYR_REF }}"
+          fi
 
-    - name: Install Python dependencies
-      run: |
-        # Activate Python virtual environment
-        if [ ! -z "${VENV_ACTIVATE}" ]; then
-          source ${VENV_ACTIVATE}
+          pushd zephyr
+          git fetch origin ${REF}
+          git checkout FETCH_HEAD
+          popd
 
-          # Install Python dependencies from the checked out Zephyr repository
-          # if running inside a virtual environment; otherwise, it is assumed
-          # that the host already provides all the required dependencies.
-          pip3 install -r ${ZEPHYR_ROOT}/scripts/requirements.txt
-        fi
+          # Clone Zephyr repositories
+          west update
+          west zephyr-export
 
-    - name: Run test suites
-      run: |
-        # Activate Python virtual environment
-        if [ ! -z "${VENV_ACTIVATE}" ]; then
-          source ${VENV_ACTIVATE}
-        fi
+          # Export variables
+          echo "ZEPHYR_WORKSPACE=${ZEPHYR_WORKSPACE}" >> $GITHUB_ENV
+          echo "ZEPHYR_ROOT=${ZEPHYR_WORKSPACE}/zephyr" >> $GITHUB_ENV
 
-        # Create working directory
-        mkdir -p test
-        cd test
+      - name: Install Python dependencies
+        run: |
+          # Activate Python virtual environment
+          if [ ! -z "${VENV_ACTIVATE}" ]; then
+            source ${VENV_ACTIVATE}
 
-        # Set host-specific twister parameters
-        if [ "${{ runner.os }}" != "Linux" ]; then
-          # TODO: Remove `--build-only` when QEMU is available on non-Linux hosts
-          HOST_ARGS+="--build-only "
-        fi
+            # Install Python dependencies from the checked out Zephyr repository
+            # if running inside a virtual environment; otherwise, it is assumed
+            # that the host already provides all the required dependencies.
+            pip3 install -r ${ZEPHYR_ROOT}/scripts/requirements.txt
+          fi
 
-        if [ "${{ runner.os }}" == "Windows" ]; then
-          # Shorten twister output paths on Windows in order to work around the
-          # long path issues
-          HOST_ARGS+="--short-build-path "
-        fi
+      - name: Run test suites
+        run: |
+          # Activate Python virtual environment
+          if [ ! -z "${VENV_ACTIVATE}" ]; then
+            source ${VENV_ACTIVATE}
+          fi
 
-        # Generate platform list from the target list
-        TARGETS=$(echo '${{ needs.setup.outputs.targets }}' | jq -cr '.[]' | dos2unix)
+          # Create working directory
+          mkdir -p test
+          cd test
 
-        for TARGET in ${TARGETS}; do
-          case ${TARGET} in
-            aarch64-zephyr-elf)
-              PLATFORM_ARGS+="-p qemu_cortex_a53 "
-              ;;
-            arc64-zephyr-elf)
-              PLATFORM_ARGS+="-p qemu_arc/qemu_arc_hs6x "
-              ;;
-            arc-zephyr-elf)
-              PLATFORM_ARGS+="-p qemu_arc/qemu_arc_em "
-              PLATFORM_ARGS+="-p qemu_arc/qemu_arc_hs "
-              ;;
-            arm*-zephyr-eabi)
-              PLATFORM_ARGS+="-p qemu_cortex_m0 "
-              PLATFORM_ARGS+="-p mps2/an385 "
-              PLATFORM_ARGS+="-p mps2/an521/cpu0 "
-              PLATFORM_ARGS+="-p mps3/corstone300/an547 "
-              ;;
-            # TODO: Release the microblaze arch source in a public repo
-            # microblazeel-zephyr-elf)
-            #  PLATFORM_ARGS+="-p qemu_microblaze "
-            #  ;;
-            mips-zephyr-elf)
-              PLATFORM_ARGS+="-p qemu_malta "
-              ;;
-            riscv64-zephyr-elf)
-              PLATFORM_ARGS+="-p qemu_riscv32 "
-              PLATFORM_ARGS+="-p qemu_riscv32e "
-              PLATFORM_ARGS+="-p qemu_riscv64 "
-              ;;
-            # not fully enabled in zephyr yet
-            # rx-zephyr-elf)
-            #   PLATFORM_ARGS+="-p qemu_rx "
-            #   ;;
-            sparc-zephyr-elf)
-              PLATFORM_ARGS+="-p qemu_leon3 "
-              ;;
-            x86_64-zephyr-elf)
-              PLATFORM_ARGS+="-p qemu_x86 "
-              PLATFORM_ARGS+="-p qemu_x86_64 "
-              ;;
-            xtensa-amd_acp_6_0_adsp_zephyr-elf)
-              # xtensa-sample_controller32_zephyr-elf is untested because no
-              # upstream user platform is currently available.
-              # PLATFORM_ARGS+="-p acp_6_0 "
-              ;;
-            xtensa-dc233c_zephyr-elf)
-              PLATFORM_ARGS+="-p qemu_xtensa/dc233c/mmu "
-              ;;
-            xtensa-espressif_esp32_zephyr-elf)
-              PLATFORM_ARGS+="-p esp32_devkitc/esp32/procpu "
-              ;;
-            xtensa-espressif_esp32s2_zephyr-elf)
-              PLATFORM_ARGS+="-p esp32s2_saola "
-              ;;
-            xtensa-espressif_esp32s3_zephyr-elf)
-              PLATFORM_ARGS+="-p esp32s3_devkitm/esp32s3/procpu "
-              ;;
-            xtensa-intel_ace15_mtpm_zephyr-elf)
-              PLATFORM_ARGS+="-p intel_adsp/ace15_mtpm "
-              ;;
-            xtensa-intel_ace30_ptl_zephyr-elf)
-              PLATFORM_ARGS+="-p intel_adsp/ace30/ptl "
-              ;;
-            xtensa-intel_tgl_adsp_zephyr-elf)
-              PLATFORM_ARGS+="-p intel_adsp/cavs25 "
-              ;;
-            xtensa-mtk_mt8195_adsp_zephyr-elf)
-              # Not merged yet, see Zephyr #81154
-              #PLATFORM_ARGS+="-p mt8195/mt8195/adsp"
-              ;;
-            xtensa-mtk_mt818x_adsp_zephyr-elf)
-              # Not merged yet, see Zephyr #81154
-              #PLATFORM_ARGS+="-p mt818x/mt818x/adsp"
-              ;;
-            xtensa-mtk_mt8196_adsp_zephyr-elf)
-              # Not merged yet, see Zephyr #81154
-              #PLATFORM_ARGS+="-p mt8196/mt8196/adsp"
-              ;;
-            xtensa-mtk_mt8365_adsp_zephyr-elf)
-              # xtensa-mtk_mt8365_adsp_zephyr-elf is untested because no
-              # upstream user platform is currently available.
-              #PLATFORM_ARGS+="-p mt8365/mt8365/adsp"
-              ;;
-            xtensa-nxp_imx_adsp_zephyr-elf)
-              PLATFORM_ARGS+="-p imx8qm_mek/mimx8qm6/adsp "
-              ;;
-            xtensa-nxp_imx8m_adsp_zephyr-elf)
-              PLATFORM_ARGS+="-p imx8mp_evk/mimx8ml8/adsp "
-              ;;
-            xtensa-nxp_imx8ulp_adsp_zephyr-elf)
-              PLATFORM_ARGS+="-p imx8ulp_evk/mimx8ud7/adsp "
-              ;;
-            xtensa-nxp_rt500_adsp_zephyr-elf)
-              PLATFORM_ARGS+="-p mimxrt595_evk/mimxrt595s/f1 "
-              ;;
-            xtensa-nxp_rt600_adsp_zephyr-elf)
-              # xtensa-nxp_rt600_adsp_zephyr-elf is untested because no
-              # upstream user platform is currently available.
-              ;;
-            xtensa-nxp_rt700_hifi1_zephyr-elf)
-              # xtensa-nxp_rt700_hifi1_zephyr-elf is untested because no
-              # upstream user platform is currently available.
-              ;;
-            xtensa-nxp_rt700_hifi4_zephyr-elf)
-              # xtensa-nxp_rt700_hifi4_zephyr-elf is untested because no
-              # upstream user platform is currently available.
-              ;;
-            xtensa-sample_controller_zephyr-elf)
-              PLATFORM_ARGS+="-p qemu_xtensa/dc233c "
-              ;;
-            xtensa-sample_controller32_zephyr-elf)
-              # xtensa-sample_controller32_zephyr-elf is untested because no
-              # upstream user platform is currently available.
-              # PLATFORM_ARGS+="-p qemu_xtensa/sample_controller32/mpu "
-              ;;
-          esac
-        done
+          # Set host-specific twister parameters
+          if [ "${{ runner.os }}" != "Linux" ]; then
+            # TODO: Remove `--build-only` when QEMU is available on non-Linux hosts
+            HOST_ARGS+="--build-only "
+          fi
 
-        # Generate test list
-        TEST_ARGS="
-            -T ${ZEPHYR_ROOT}/samples/hello_world
-            -T ${ZEPHYR_ROOT}/samples/cpp/hello_world
-            -T ${ZEPHYR_ROOT}/tests/lib/c_lib
-            -T ${ZEPHYR_ROOT}/tests/lib/cpp
-            -T ${ZEPHYR_ROOT}/tests/lib/newlib
-            "
+          if [ "${{ runner.os }}" == "Windows" ]; then
+            # Shorten twister output paths on Windows in order to work around the
+            # long path issues
+            HOST_ARGS+="--short-build-path "
+          fi
 
-        # Run tests with twister
-        TWISTER="${ZEPHYR_ROOT}/scripts/twister"
-        ${TWISTER} -v -N --force-color --inline-logs --retry-failed 3 \
-                   --force-toolchain \
-                   --subset ${{ matrix.subset }}/${{ env.SUBSET_COUNT }} \
-                   ${HOST_ARGS} \
-                   ${TEST_ARGS} \
-                   ${PLATFORM_ARGS}
+          # Generate platform list from the target list
+          TARGETS=$(echo '${{ needs.setup.outputs.targets }}' | jq -cr '.[]' | dos2unix)
 
-    - name: Publish test results
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: test_${{ matrix.testenv.name }}_${{ matrix.subset }}
-        if-no-files-found: ignore
-        path: test/twister-out/twister.xml
+          for TARGET in ${TARGETS}; do
+            case ${TARGET} in
+              aarch64-zephyr-elf)
+                PLATFORM_ARGS+="-p qemu_cortex_a53 "
+                ;;
+              arc64-zephyr-elf)
+                PLATFORM_ARGS+="-p qemu_arc/qemu_arc_hs6x "
+                ;;
+              arc-zephyr-elf)
+                PLATFORM_ARGS+="-p qemu_arc/qemu_arc_em "
+                PLATFORM_ARGS+="-p qemu_arc/qemu_arc_hs "
+                ;;
+              arm*-zephyr-eabi)
+                PLATFORM_ARGS+="-p qemu_cortex_m0 "
+                PLATFORM_ARGS+="-p mps2/an385 "
+                PLATFORM_ARGS+="-p mps2/an521/cpu0 "
+                PLATFORM_ARGS+="-p mps3/corstone300/an547 "
+                ;;
+              # TODO: Release the microblaze arch source in a public repo
+              # microblazeel-zephyr-elf)
+              #  PLATFORM_ARGS+="-p qemu_microblaze "
+              #  ;;
+              mips-zephyr-elf)
+                PLATFORM_ARGS+="-p qemu_malta "
+                ;;
+              riscv64-zephyr-elf)
+                PLATFORM_ARGS+="-p qemu_riscv32 "
+                PLATFORM_ARGS+="-p qemu_riscv32e "
+                PLATFORM_ARGS+="-p qemu_riscv64 "
+                ;;
+              # not fully enabled in zephyr yet
+              # rx-zephyr-elf)
+              #   PLATFORM_ARGS+="-p qemu_rx "
+              #   ;;
+              sparc-zephyr-elf)
+                PLATFORM_ARGS+="-p qemu_leon3 "
+                ;;
+              x86_64-zephyr-elf)
+                PLATFORM_ARGS+="-p qemu_x86 "
+                PLATFORM_ARGS+="-p qemu_x86_64 "
+                ;;
+              xtensa-amd_acp_6_0_adsp_zephyr-elf)
+                # xtensa-sample_controller32_zephyr-elf is untested because no
+                # upstream user platform is currently available.
+                # PLATFORM_ARGS+="-p acp_6_0 "
+                ;;
+              xtensa-dc233c_zephyr-elf)
+                PLATFORM_ARGS+="-p qemu_xtensa/dc233c/mmu "
+                ;;
+              xtensa-espressif_esp32_zephyr-elf)
+                PLATFORM_ARGS+="-p esp32_devkitc/esp32/procpu "
+                ;;
+              xtensa-espressif_esp32s2_zephyr-elf)
+                PLATFORM_ARGS+="-p esp32s2_saola "
+                ;;
+              xtensa-espressif_esp32s3_zephyr-elf)
+                PLATFORM_ARGS+="-p esp32s3_devkitm/esp32s3/procpu "
+                ;;
+              xtensa-intel_ace15_mtpm_zephyr-elf)
+                PLATFORM_ARGS+="-p intel_adsp/ace15_mtpm "
+                ;;
+              xtensa-intel_ace30_ptl_zephyr-elf)
+                PLATFORM_ARGS+="-p intel_adsp/ace30/ptl "
+                ;;
+              xtensa-intel_tgl_adsp_zephyr-elf)
+                PLATFORM_ARGS+="-p intel_adsp/cavs25 "
+                ;;
+              xtensa-mtk_mt8195_adsp_zephyr-elf)
+                # Not merged yet, see Zephyr #81154
+                #PLATFORM_ARGS+="-p mt8195/mt8195/adsp"
+                ;;
+              xtensa-mtk_mt818x_adsp_zephyr-elf)
+                # Not merged yet, see Zephyr #81154
+                #PLATFORM_ARGS+="-p mt818x/mt818x/adsp"
+                ;;
+              xtensa-mtk_mt8196_adsp_zephyr-elf)
+                # Not merged yet, see Zephyr #81154
+                #PLATFORM_ARGS+="-p mt8196/mt8196/adsp"
+                ;;
+              xtensa-mtk_mt8365_adsp_zephyr-elf)
+                # xtensa-mtk_mt8365_adsp_zephyr-elf is untested because no
+                # upstream user platform is currently available.
+                #PLATFORM_ARGS+="-p mt8365/mt8365/adsp"
+                ;;
+              xtensa-nxp_imx_adsp_zephyr-elf)
+                PLATFORM_ARGS+="-p imx8qm_mek/mimx8qm6/adsp "
+                ;;
+              xtensa-nxp_imx8m_adsp_zephyr-elf)
+                PLATFORM_ARGS+="-p imx8mp_evk/mimx8ml8/adsp "
+                ;;
+              xtensa-nxp_imx8ulp_adsp_zephyr-elf)
+                PLATFORM_ARGS+="-p imx8ulp_evk/mimx8ud7/adsp "
+                ;;
+              xtensa-nxp_rt500_adsp_zephyr-elf)
+                PLATFORM_ARGS+="-p mimxrt595_evk/mimxrt595s/f1 "
+                ;;
+              xtensa-nxp_rt600_adsp_zephyr-elf)
+                # xtensa-nxp_rt600_adsp_zephyr-elf is untested because no
+                # upstream user platform is currently available.
+                ;;
+              xtensa-nxp_rt700_hifi1_zephyr-elf)
+                # xtensa-nxp_rt700_hifi1_zephyr-elf is untested because no
+                # upstream user platform is currently available.
+                ;;
+              xtensa-nxp_rt700_hifi4_zephyr-elf)
+                # xtensa-nxp_rt700_hifi4_zephyr-elf is untested because no
+                # upstream user platform is currently available.
+                ;;
+              xtensa-sample_controller_zephyr-elf)
+                PLATFORM_ARGS+="-p qemu_xtensa/dc233c "
+                ;;
+              xtensa-sample_controller32_zephyr-elf)
+                # xtensa-sample_controller32_zephyr-elf is untested because no
+                # upstream user platform is currently available.
+                # PLATFORM_ARGS+="-p qemu_xtensa/sample_controller32/mpu "
+                ;;
+            esac
+          done
+
+          # Generate test list
+          TEST_ARGS="
+              -T ${ZEPHYR_ROOT}/samples/hello_world
+              -T ${ZEPHYR_ROOT}/samples/cpp/hello_world
+              -T ${ZEPHYR_ROOT}/tests/lib/c_lib
+              -T ${ZEPHYR_ROOT}/tests/lib/cpp
+              -T ${ZEPHYR_ROOT}/tests/lib/newlib
+              "
+
+          # Run tests with twister
+          TWISTER="${ZEPHYR_ROOT}/scripts/twister"
+          ${TWISTER} -v -N --force-color --inline-logs --retry-failed 3 \
+                     --force-toolchain \
+                     --subset ${{ matrix.subset }}/${{ env.SUBSET_COUNT }} \
+                     ${HOST_ARGS} \
+                     ${TEST_ARGS} \
+                     ${PLATFORM_ARGS}
+
+      - name: Publish test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test_${{ matrix.testenv.name }}_${{ matrix.subset }}
+          if-no-files-found: ignore
+          path: test/twister-out/twister.xml
 
   # Post test result check
   test-result:
     name: Test Result
-    needs: [ test-dist-bundle ]
+    needs: [test-dist-bundle]
     runs-on: ubuntu-24.04
 
     # NOTE: The 'test-result' job depends on the 'test-dist-bundle' job and
@@ -1765,6 +1793,6 @@ jobs:
     #       merging pull requests, because GitHub does not support specifying a
     #       job that is part of a matrix for this purpose.
     steps:
-    - name: Summary
-      run: |
-        echo "All passed"
+      - name: Summary
+        run: |
+          echo "All passed"
