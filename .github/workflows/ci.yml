@@ -803,6 +803,7 @@ jobs:
         pwd || true
         df -h || true
         tree -aL 2 || true
+        ls ${WORKSPACE}/build/.build/HOST-${CT_HOST}/${{ matrix.target }} || true
 
         # rm -rf ${GITHUB_WORKSPACE}/binutils || true
         rm -rf ${GITHUB_WORKSPACE}/gcc || true
