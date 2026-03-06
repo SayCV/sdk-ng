@@ -48,9 +48,9 @@ jobs:
         # Collect release assets
         mkdir -p ${ASSET_ROOT}
         pushd ${ASSET_ROOT}
-        mv ${ARTIFACT_ROOT}/toolchain_*/toolchain_* .
-        mv ${ARTIFACT_ROOT}/hosttools_*/hosttools_* .
-        mv ${ARTIFACT_ROOT}/${{ env.BUNDLE_PREFIX }}-*/${{ env.BUNDLE_PREFIX }}-* .
+        mv ${ARTIFACT_ROOT}/toolchain_*/toolchain_* . || true
+        mv ${ARTIFACT_ROOT}/hosttools_*/hosttools_* . || true
+        mv ${ARTIFACT_ROOT}/${{ env.BUNDLE_PREFIX }}-*/${{ env.BUNDLE_PREFIX }}-* . || true
 
         # Compute checksum
         md5sum * > ${GITHUB_WORKSPACE}/md5.sum
