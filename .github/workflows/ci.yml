@@ -800,14 +800,20 @@ jobs:
         ${CT_NG} build STOP=cc_for_host
 
         # Clean up gcc build directory to reduce disk usage
-        # du -sh */ || true
-        tree -L 2 || true
+        pwd || true
+        df -h || true
+        tree -aL 2 || true
         rm -rf src/linux-* || true
         rm -rf src/gcc-* || true
         rm -rf ${{ matrix.target }}/build/build-kernel-headers || true
         rm -rf ${{ matrix.target }}/build/build-cc-* || true
 
+        mv ${WORKSPACE}/build/build.log ${WORKSPACE}/build/build.log.1 || true
         ${CT_NG} build RESTART=libc_post_cc
+        mv ${WORKSPACE}/build/build.log ${WORKSPACE}/build/build.log.2 || true
+        mv ${WORKSPACE}/build/build.log.1 ${WORKSPACE}/build/build.log || true
+        cat ${WORKSPACE}/build/build.log.2 >> ${WORKSPACE}/build/build.log || true
+        cat ${WORKSPACE}/build/build.config >> ${WORKSPACE}/build/build.log || true
         popd
 
         # Resolve output directory path
