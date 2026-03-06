@@ -12,6 +12,7 @@ name: CI
       description: 'Host'
       type: choice
       required: true
+      default: 'windows-x86_64'
       options:
       - windows-x86_64
       - all
@@ -23,13 +24,14 @@ name: CI
       description: 'Target'
       type: choice
       required: true
+      default: 'armeb-zephyr-eabi'
       options:
-      - armeb-zephyr-eabi
       - all
       - aarch64-zephyr-elf
       - arc64-zephyr-elf
       - arc-zephyr-elf
       - arm-zephyr-eabi
+      - armeb-zephyr-eabi
       - microblazeel-zephyr-elf
       - mips-zephyr-elf
       - nios2-zephyr-elf
@@ -62,6 +64,7 @@ name: CI
       description: 'Debug'
       type: choice
       required: true
+      default: 'none'
       options:
       - none
       - toolchain-pre
@@ -71,6 +74,7 @@ name: CI
       description: 'AWS'
       type: choice
       required: true
+      default: 'none'
       options:
       - none
       - aws
@@ -78,6 +82,7 @@ name: CI
       description: 'TEST'
       type: choice
       required: true
+      default: 'none'
       options:
       - none
       - enable
