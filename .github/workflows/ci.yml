@@ -2,6 +2,86 @@
 
 name: CI
 
+.workflow_inputs: &workflow_inputs
+  inputs:
+    zephyr-ref:
+      description: 'Zephyr Ref (branch, tag, SHA, ...)'
+      required: true
+      default: dev-0.17.4
+    host:
+      description: 'Host'
+      type: choice
+      required: true
+      options:
+      - windows-x86_64
+      - all
+      - linux-x86_64
+      - linux-aarch64
+      - macos-x86_64
+      - macos-aarch64
+    target:
+      description: 'Target'
+      type: choice
+      required: true
+      options:
+      - armeb-zephyr-eabi
+      - all
+      - aarch64-zephyr-elf
+      - arc64-zephyr-elf
+      - arc-zephyr-elf
+      - arm-zephyr-eabi
+      - microblazeel-zephyr-elf
+      - mips-zephyr-elf
+      - nios2-zephyr-elf
+      - riscv64-zephyr-elf
+      - rx-zephyr-elf
+      - sparc-zephyr-elf
+      - x86_64-zephyr-elf
+      - xtensa-amd_acp_6_0_adsp_zephyr-elf
+      - xtensa-dc233c_zephyr-elf
+      - xtensa-espressif_esp32_zephyr-elf
+      - xtensa-espressif_esp32s2_zephyr-elf
+      - xtensa-espressif_esp32s3_zephyr-elf
+      - xtensa-intel_ace15_mtpm_zephyr-elf
+      - xtensa-intel_ace30_ptl_zephyr-elf
+      - xtensa-intel_tgl_adsp_zephyr-elf
+      - xtensa-mtk_mt8195_adsp_zephyr-elf
+      - xtensa-mtk_mt818x_adsp_zephyr-elf
+      - xtensa-mtk_mt8196_adsp_zephyr-elf
+      - xtensa-mtk_mt8365_adsp_zephyr-elf
+      - xtensa-nxp_imx_adsp_zephyr-elf
+      - xtensa-nxp_imx8m_adsp_zephyr-elf
+      - xtensa-nxp_imx8ulp_adsp_zephyr-elf
+      - xtensa-nxp_rt500_adsp_zephyr-elf
+      - xtensa-nxp_rt600_adsp_zephyr-elf
+      - xtensa-nxp_rt700_hifi1_zephyr-elf
+      - xtensa-nxp_rt700_hifi4_zephyr-elf
+      - xtensa-sample_controller_zephyr-elf
+      - xtensa-sample_controller32_zephyr-elf
+    debug:
+      description: 'Debug'
+      type: choice
+      required: true
+      options:
+      - none
+      - toolchain-pre
+      - toolchain-post
+      - hosttools
+    aws:
+      description: 'AWS'
+      type: choice
+      required: true
+      options:
+      - none
+      - aws
+    test:
+      description: 'TEST'
+      type: choice
+      required: true
+      options:
+      - none
+      - enable
+
 on:
   push:
     branches:
@@ -14,90 +94,14 @@ on:
     - topic-*
     - v*-branch
   workflow_call:
+    <<: *workflow_inputs
     secrets:
       AWS_CACHE_SDK_ACCESS_KEY_ID:
         required: true
       AWS_CACHE_SDK_SECRET_ACCESS_KEY:
         required: true
   workflow_dispatch:
-    inputs:
-      zephyr-ref:
-        description: 'Zephyr Ref (branch, tag, SHA, ...)'
-        required: true
-        default: dev-0.17.4
-      host:
-        description: 'Host'
-        type: choice
-        required: true
-        options:
-        - windows-x86_64
-        - all
-        - linux-x86_64
-        - linux-aarch64
-        - macos-x86_64
-        - macos-aarch64
-      target:
-        description: 'Target'
-        type: choice
-        required: true
-        options:
-        - armeb-zephyr-eabi
-        - all
-        - aarch64-zephyr-elf
-        - arc64-zephyr-elf
-        - arc-zephyr-elf
-        - arm-zephyr-eabi
-        - microblazeel-zephyr-elf
-        - mips-zephyr-elf
-        - nios2-zephyr-elf
-        - riscv64-zephyr-elf
-        - rx-zephyr-elf
-        - sparc-zephyr-elf
-        - x86_64-zephyr-elf
-        - xtensa-amd_acp_6_0_adsp_zephyr-elf
-        - xtensa-dc233c_zephyr-elf
-        - xtensa-espressif_esp32_zephyr-elf
-        - xtensa-espressif_esp32s2_zephyr-elf
-        - xtensa-espressif_esp32s3_zephyr-elf
-        - xtensa-intel_ace15_mtpm_zephyr-elf
-        - xtensa-intel_ace30_ptl_zephyr-elf
-        - xtensa-intel_tgl_adsp_zephyr-elf
-        - xtensa-mtk_mt8195_adsp_zephyr-elf
-        - xtensa-mtk_mt818x_adsp_zephyr-elf
-        - xtensa-mtk_mt8196_adsp_zephyr-elf
-        - xtensa-mtk_mt8365_adsp_zephyr-elf
-        - xtensa-nxp_imx_adsp_zephyr-elf
-        - xtensa-nxp_imx8m_adsp_zephyr-elf
-        - xtensa-nxp_imx8ulp_adsp_zephyr-elf
-        - xtensa-nxp_rt500_adsp_zephyr-elf
-        - xtensa-nxp_rt600_adsp_zephyr-elf
-        - xtensa-nxp_rt700_hifi1_zephyr-elf
-        - xtensa-nxp_rt700_hifi4_zephyr-elf
-        - xtensa-sample_controller_zephyr-elf
-        - xtensa-sample_controller32_zephyr-elf
-      debug:
-        description: 'Debug'
-        type: choice
-        required: true
-        options:
-        - none
-        - toolchain-pre
-        - toolchain-post
-        - hosttools
-      aws:
-        description: 'AWS'
-        type: choice
-        required: true
-        options:
-        - none
-        - aws
-      test:
-        description: 'TEST'
-        type: choice
-        required: true
-        options:
-        - none
-        - enable
+    <<: *workflow_inputs
 
 concurrency:
   group: ${{ github.event_name == 'workflow_dispatch' && github.run_id || github.head_ref || github.ref }}
