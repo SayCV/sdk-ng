@@ -19,33 +19,6 @@ on:
         required: true
       AWS_CACHE_SDK_SECRET_ACCESS_KEY:
         required: true
-    inputs:
-      host:
-        description: 'Host'
-        type: string
-        required: false
-        default: 'windows-x86_64'
-      target:
-        description: 'Target'
-        type: string
-        required: false
-        default: 'armeb-zephyr-eabi'
-      debug:
-        description: 'Debug'
-        type: string
-        required: false
-        default: 'none'
-      aws:
-        description: 'AWS'
-        type: string
-        required: false
-        default: 'none'
-      test:
-        description: 'TEST'
-        type: string
-        required: false
-        default: 'none'
-
   workflow_dispatch:
     inputs:
       zephyr-ref:
@@ -203,7 +176,7 @@ jobs:
             ${{ contains(github.event.pull_request.labels.*.name, 'debug-hosttools') }} && MATRIX_DEBUG="hosttools"
             MATRIX_AWS="none"
             MATRIX_TEST="none"
-          elif [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "${{ github.event_name }}" = "release" ]; then
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             # Set configurations based on the user selection
             case '${{ github.event.inputs.host }}' in
               all)            build_host_all="y";;
@@ -260,9 +233,9 @@ jobs:
             # build_target_all="y"
             build_host_windows_x86_64="y"
             build_target_armeb_zephyr_eabi="y"
-            MATRIX_DEBUG="${{ github.event.inputs.debug }}"
-            MATRIX_AWS="${{ github.event.inputs.aws }}"
-            MATRIX_TEST="${{ github.event.inputs.test }}"
+            MATRIX_DEBUG="none"
+            MATRIX_AWS="none"
+            MATRIX_TEST="none"
           fi
 
           if [ "${build_host_all}" == "y" ]; then
