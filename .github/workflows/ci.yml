@@ -882,10 +882,10 @@ jobs:
       if: always()
       run: |
         # Move build log file out of workspace
-        mv ${WORKSPACE}/build/build.log ${{ matrix.target }}.log
-        mv ${WORKSPACE}/build/build.log.1 ${{ matrix.target }}.build.log.1
-        mv ${WORKSPACE}/build/build.config ${{ matrix.target }}.build.config
-        mv ${WORKSPACE}/build/.config ${{ matrix.target }}.config
+        mv ${WORKSPACE}/build/build.log ${{ matrix.target }}.log || true
+        mv ${WORKSPACE}/build/build.log.1 ${{ matrix.target }}.build.log.1 || true
+        mv ${WORKSPACE}/build/build.config ${{ matrix.target }}.build.config || true
+        mv ${WORKSPACE}/build/.config ${{ matrix.target }}.config || true
 
     - name: Upload toolchain build log
       if: always()
