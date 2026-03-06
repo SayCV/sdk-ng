@@ -797,7 +797,7 @@ jobs:
         ${CT_NG} defconfig DEFCONFIG=build.config
 
         # Build toolchain
-        ${CT_NG} build STOP=cc_for_host
+        # ${CT_NG} build STOP=cc_for_host
 
         # Clean up gcc build directory to reduce disk usage
         pwd || true
@@ -814,7 +814,7 @@ jobs:
         df -h || true
 
         mv ${WORKSPACE}/build/build.log ${WORKSPACE}/build/build.log.1 || true
-        ${CT_NG} build RESTART=libc_post_cc
+        # ${CT_NG} build RESTART=libc_post_cc
         popd
 
         # Resolve output directory path
@@ -882,6 +882,9 @@ jobs:
       run: |
         # Move build log file out of workspace
         mv ${WORKSPACE}/build/build.log ${{ matrix.target }}.log
+        mv ${WORKSPACE}/build/build.log.1 ${{ matrix.target }}.build.log.1
+        mv ${WORKSPACE}/build/build.config ${{ matrix.target }}.build.config
+        mv ${WORKSPACE}/build/.config ${{ matrix.target }}.config
 
     - name: Upload toolchain build log
       if: always()
@@ -890,9 +893,9 @@ jobs:
         name: log_${{ matrix.host.name }}_${{ matrix.target }}
         path:  |
           ${{ matrix.target }}.log
-          ${WORKSPACE}/build/build.log.1
-          ${WORKSPACE}/build/build.config
-          ${WORKSPACE}/build/.config
+          ${{ matrix.target }}.build.log.1
+          ${{ matrix.target }}.build.config
+          ${{ matrix.target }}.config
 
     - name: Upload toolchain build artifact
       uses: actions/upload-artifact@v4
