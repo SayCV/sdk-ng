@@ -803,10 +803,14 @@ jobs:
         pwd || true
         df -h || true
         tree -aL 2 || true
-        rm -rf src/linux-* || true
-        rm -rf src/gcc-* || true
-        rm -rf ${{ matrix.target }}/build/build-kernel-headers || true
-        rm -rf ${{ matrix.target }}/build/build-cc-* || true
+
+        # rm -rf ${GITHUB_WORKSPACE}/binutils || true
+        rm -rf ${GITHUB_WORKSPACE}/gcc || true
+        # rm -rf ${WORKSPACE}/build/.build/tarballs/gcc-* || true
+        # rm -rf ${WORKSPACE}/build/.build/HOST-${CT_HOST}/${{ matrix.target }}/src/binutils || true
+        rm -rf ${WORKSPACE}/build/.build/HOST-${CT_HOST}/${{ matrix.target }}/src/gcc || true
+        rm -rf ${WORKSPACE}/build/.build/HOST-${CT_HOST}/${{ matrix.target }}/build/build-cc-gcc-core || true
+        rm -rf ${WORKSPACE}/build/.build/HOST-${CT_HOST}/${{ matrix.target }}/build/build-cc-gcc-final || true
 
         mv ${WORKSPACE}/build/build.log ${WORKSPACE}/build/build.log.1 || true
         ${CT_NG} build RESTART=libc_post_cc
