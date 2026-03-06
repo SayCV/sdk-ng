@@ -20,11 +20,6 @@ on:
       AWS_CACHE_SDK_SECRET_ACCESS_KEY:
         required: true
     inputs:
-      zephyr-ref:
-        description: 'Zephyr Ref (branch, tag, SHA, ...)'
-        type: string
-        required: false
-        default: dev-0.17.4
       host:
         description: 'Host'
         type: string
@@ -207,7 +202,7 @@ jobs:
             ${{ contains(github.event.pull_request.labels.*.name, 'debug-hosttools') }} && MATRIX_DEBUG="hosttools"
             MATRIX_AWS="none"
             MATRIX_TEST="none"
-          elif [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "${{ github.event_name }}" = "workflow_call" ]; then
             # Set configurations based on the user selection
             case '${{ github.event.inputs.host }}' in
               all)            build_host_all="y";;
