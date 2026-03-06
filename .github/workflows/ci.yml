@@ -185,6 +185,7 @@ jobs:
         id: generate-matrix
         run: |
           # Set build configurations
+          echo "## event_name = ${{ github.event_name }}";
           if [ "${{ github.event_name }}" == "pull_request_target" ]; then
             # Set configurations based on the pull request labels
             ${{ contains(github.event.pull_request.labels.*.name, 'ci-linux-x86_64') }}   && build_host_linux_x86_64="y"
