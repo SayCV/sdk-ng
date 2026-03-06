@@ -788,7 +788,9 @@ jobs:
 
         # Configure restartable build for the previous build
         cat <<EOF >> .config
+        CT_DEBUG_CT=y
         CT_DEBUG_CT_SAVE_STEPS=y
+        CT_DEBUG_CT_SAVE_STEPS_GZIP=y
         EOF
 
         # Merge configurations
