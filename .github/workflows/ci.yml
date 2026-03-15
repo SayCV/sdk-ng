@@ -195,7 +195,7 @@ jobs:
               arc-zephyr-elf)                       build_target_arc_zephyr_elf="y";;
               arm-zephyr-eabi)                      build_target_arm_zephyr_eabi="y";;
               armeb-zephyr-eabi)                    build_target_armeb_zephyr_eabi="y";;
-              mcore-zephyr-eabi)                    build_target_mcore_zephyr_eabi="y";;
+              mcore-zephyr-elf)                     build_target_mcore_zephyr_eabi="y";;
               microblazeel-zephyr-elf)              build_target_microblazeel_zephyr_elf="y";;
               mips-zephyr-elf)                      build_target_mips_zephyr_elf="y";;
               nios2-zephyr-elf)                     build_target_nios2_zephyr_elf="y";;
