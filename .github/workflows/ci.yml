@@ -651,6 +651,8 @@ jobs:
             export LDFLAGS="-L${HOMEBREW_PREFIX}/opt/ncurses/lib -L${HOMEBREW_PREFIX}/opt/gettext/lib"
           fi
 
+          cp -vrf ${GITHUB_WORKSPACE}/overlays/mcore/crosstool-ng/mcore.in ${GITHUB_WORKSPACE}/crosstool-ng/config/arch/.
+
           # Create build directory
           pushd ${WORKSPACE}
           mkdir -p crosstool-ng-build
