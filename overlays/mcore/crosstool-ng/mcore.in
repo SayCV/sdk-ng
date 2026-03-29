@@ -1,0 +1,11 @@
+# MCORE soft-core architecture
+
+## no-package
+## select ARCH_SUPPORTS_32
+## select ARCH_DEFAULT_32
+## select ARCH_SUPPORTS_EITHER_ENDIAN
+## select ARCH_DEFAULT_BE
+## depends on EXPERIMENTAL
+
+## help The MCORE soft-core architecture, as defined by:
+## help     http://mcorelogic.org/blog/pages/architecture.html
