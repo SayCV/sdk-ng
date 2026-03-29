@@ -652,6 +652,7 @@ jobs:
           fi
 
           cp -vrf ${GITHUB_WORKSPACE}/overlays/mcore/crosstool-ng/mcore.in ${GITHUB_WORKSPACE}/crosstool-ng/config/arch/.
+          cp -vrf ${GITHUB_WORKSPACE}/overlays/mcore/crosstool-ng/mcore.sh ${GITHUB_WORKSPACE}/crosstool-ng/scripts/build/arch/.
 
           # Create build directory
           pushd ${WORKSPACE}
